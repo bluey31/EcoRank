@@ -122,6 +122,9 @@ class ERSplashViewController: UIViewController {
             let responseString = String(data: data, encoding: .utf8)
             print("responseString = \(responseString)")
             
+            print("Loading main screen")
+            self.successfulLogin(response: responseString!)
+            
         }
         task.resume()
 
