@@ -11,6 +11,7 @@
 		69241AA91E64615700DE153F /* Montserrat-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 69241AA61E64615700DE153F /* Montserrat-Light.otf */; };
 		69241AAA1E64615700DE153F /* Montserrat-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 69241AA71E64615700DE153F /* Montserrat-Medium.otf */; };
 		69241AAB1E64615700DE153F /* Montserrat-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 69241AA81E64615700DE153F /* Montserrat-Regular.otf */; };
+		69241AAD1E646E2100DE153F /* loginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69241AAC1E646E2100DE153F /* loginViewController.swift */; };
 		DA4B20821E6240C9008988B6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4B20811E6240C9008988B6 /* AppDelegate.swift */; };
 		DA4B20841E6240C9008988B6 /* ERViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4B20831E6240C9008988B6 /* ERViewController.swift */; };
 		DA4B20871E6240C9008988B6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA4B20851E6240C9008988B6 /* Main.storyboard */; };
@@ -24,6 +25,7 @@
 		69241AA61E64615700DE153F /* Montserrat-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Light.otf"; sourceTree = "<group>"; };
 		69241AA71E64615700DE153F /* Montserrat-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Medium.otf"; sourceTree = "<group>"; };
 		69241AA81E64615700DE153F /* Montserrat-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Regular.otf"; sourceTree = "<group>"; };
+		69241AAC1E646E2100DE153F /* loginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = loginViewController.swift; sourceTree = "<group>"; };
 		69895E301E643A9A002AAF7B /* EcoRank.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = EcoRank.entitlements; sourceTree = "<group>"; };
 		DA4B207E1E6240C9008988B6 /* EcoRank.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EcoRank.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA4B20811E6240C9008988B6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -91,6 +93,7 @@
 				DAC939F21E64641C00ABDA5B /* ERColours.swift */,
 				DA4B20831E6240C9008988B6 /* ERViewController.swift */,
 				DA4B20851E6240C9008988B6 /* Main.storyboard */,
+				69241AAC1E646E2100DE153F /* loginViewController.swift */,
 				DA4B208A1E6240C9008988B6 /* LaunchScreen.storyboard */,
 				DA4B208D1E6240C9008988B6 /* Info.plist */,
 				69241AA51E6460F300DE153F /* Resources */,
@@ -179,6 +182,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				69241AAD1E646E2100DE153F /* loginViewController.swift in Sources */,
 				DA4B20841E6240C9008988B6 /* ERViewController.swift in Sources */,
 				DA4B20821E6240C9008988B6 /* AppDelegate.swift in Sources */,
 				DAC939F31E64641C00ABDA5B /* ERColours.swift in Sources */,
