@@ -27,6 +27,9 @@ class ERSplashViewController: UIViewController {
     @IBOutlet weak var greenHillBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var titleTopConstraint: NSLayoutConstraint!
     
+    var userLat = 0.0
+    var userLong = 0.0
+    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
@@ -88,7 +91,8 @@ class ERSplashViewController: UIViewController {
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             locationManager.startUpdatingLocation()
             let locValue:CLLocationCoordinate2D = locationManager.location!.coordinate
-            print("locations = \(locValue.latitude) \(locValue.longitude)")
+            userLat = locValue.latitude
+            userLong = locValue.longitude
         }
         
     }
