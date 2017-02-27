@@ -5,6 +5,9 @@ RewriteRule ^max/([^/]*)$ /main.php?max=$1 [L]
 RewriteCond %{THE_REQUEST} POST
 RewriteRule ^login$ /login.php [L]
 
+RewriteCond %{THE_REQUEST} POST
+RewriteRule ^register$ /register.php [L]
+
 RewriteCond %{ENV:REDIRECT_STATUS} ^$
 RewriteRule php - [F,L]
 RewriteRule db - [F,L]
