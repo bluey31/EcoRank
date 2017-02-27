@@ -14,10 +14,17 @@ $long = json_decode($_POST['long']);
 
 if (!$username || !$password || !$lat || !$long) fail(403);
 
-//run_db(function($db) use ($username, $password) {
-//    $user = sqlquery($db, "SELECT * FROM Users WHERE username=:username",
-//        ["username" => $username]);
-//    var_dump($user);
-//});
-//
-//print "hi";
+$salt = newSalt();
+$pwhash = hashPassword($password, $salt);
+
+
+$user = run_db(function($db) use ($username, $pwhash, $lat, $long, $salt) {
+    return  sqlquery($db, [
+        "INSERT INTO Users (username, password, salt, latitude, longitude, houseClassifier) VALUES (:username, :password, :salt, :lat, :long, 0)",
+        "SELECT * FROM Users WHERE username=:username",
+    ],
+        ["username" => $username, "password" => $pwhash, "lat" => $lat, "long" => $long, "salt" => $salt]);
+});
+
+var_dump($user);
+print "hi";
