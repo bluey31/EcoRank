@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		69241AA41E64544500DE153F /* HomeKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69241AA31E64544500DE153F /* HomeKit.framework */; };
+		69241AA91E64615700DE153F /* Montserrat-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 69241AA61E64615700DE153F /* Montserrat-Light.otf */; };
+		69241AAA1E64615700DE153F /* Montserrat-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 69241AA71E64615700DE153F /* Montserrat-Medium.otf */; };
+		69241AAB1E64615700DE153F /* Montserrat-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 69241AA81E64615700DE153F /* Montserrat-Regular.otf */; };
 		DA4B20821E6240C9008988B6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4B20811E6240C9008988B6 /* AppDelegate.swift */; };
 		DA4B20841E6240C9008988B6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4B20831E6240C9008988B6 /* ViewController.swift */; };
 		DA4B20871E6240C9008988B6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA4B20851E6240C9008988B6 /* Main.storyboard */; };
@@ -15,6 +19,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		69241AA31E64544500DE153F /* HomeKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HomeKit.framework; path = System/Library/Frameworks/HomeKit.framework; sourceTree = SDKROOT; };
+		69241AA61E64615700DE153F /* Montserrat-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Light.otf"; sourceTree = "<group>"; };
+		69241AA71E64615700DE153F /* Montserrat-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Medium.otf"; sourceTree = "<group>"; };
+		69241AA81E64615700DE153F /* Montserrat-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Regular.otf"; sourceTree = "<group>"; };
 		69895E301E643A9A002AAF7B /* EcoRank.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = EcoRank.entitlements; sourceTree = "<group>"; };
 		DA4B207E1E6240C9008988B6 /* EcoRank.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EcoRank.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA4B20811E6240C9008988B6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -30,15 +38,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				69241AA41E64544500DE153F /* HomeKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		69241AA51E6460F300DE153F /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				69241AA61E64615700DE153F /* Montserrat-Light.otf */,
+				69241AA71E64615700DE153F /* Montserrat-Medium.otf */,
+				69241AA81E64615700DE153F /* Montserrat-Regular.otf */,
+				DA4B20881E6240C9008988B6 /* Assets.xcassets */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		69895E2D1E643A9A002AAF7B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				69241AA31E64544500DE153F /* HomeKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -63,11 +84,11 @@
 		DA4B20801E6240C9008988B6 /* EcoRank */ = {
 			isa = PBXGroup;
 			children = (
+				69241AA51E6460F300DE153F /* Resources */,
 				69895E301E643A9A002AAF7B /* EcoRank.entitlements */,
 				DA4B20811E6240C9008988B6 /* AppDelegate.swift */,
 				DA4B20831E6240C9008988B6 /* ViewController.swift */,
 				DA4B20851E6240C9008988B6 /* Main.storyboard */,
-				DA4B20881E6240C9008988B6 /* Assets.xcassets */,
 				DA4B208A1E6240C9008988B6 /* LaunchScreen.storyboard */,
 				DA4B208D1E6240C9008988B6 /* Info.plist */,
 			);
@@ -110,7 +131,7 @@
 						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.HomeKit = {
-								enabled = 0;
+								enabled = 1;
 							};
 						};
 					};
@@ -140,8 +161,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA4B208C1E6240C9008988B6 /* LaunchScreen.storyboard in Resources */,
+				69241AAA1E64615700DE153F /* Montserrat-Medium.otf in Resources */,
 				DA4B20891E6240C9008988B6 /* Assets.xcassets in Resources */,
 				DA4B20871E6240C9008988B6 /* Main.storyboard in Resources */,
+				69241AA91E64615700DE153F /* Montserrat-Light.otf in Resources */,
+				69241AAB1E64615700DE153F /* Montserrat-Regular.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -274,6 +298,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = EcoRank/EcoRank.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = V5YSHRDD9B;
 				INFOPLIST_FILE = EcoRank/Info.plist;
@@ -290,6 +315,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = EcoRank/EcoRank.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = V5YSHRDD9B;
 				INFOPLIST_FILE = EcoRank/Info.plist;
