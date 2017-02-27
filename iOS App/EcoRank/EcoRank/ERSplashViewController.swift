@@ -16,9 +16,12 @@ class ERSplashViewController: UIViewController {
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var signUpButton: UIButton!
     @IBOutlet weak var createNewAccountButton: UIButton!
+    @IBOutlet weak var getLocationButton: UIButton!
 
     @IBOutlet weak var loginView: UIView!
     @IBOutlet weak var signUpView: UIView!
+    @IBOutlet weak var locationView: UIView!
+    @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var loginUsernameTextField: UITextField!
     @IBOutlet weak var loginPasswordTextField: UITextField!
     @IBOutlet weak var signupUsernameTextField: UITextField!
@@ -44,6 +47,7 @@ class ERSplashViewController: UIViewController {
     func setupView(){
         self.view.backgroundColor = ERSkyBlue
         self.loginView.isHidden = true
+        locationView.isHidden = true
         loginView.backgroundColor = UIColor.clear
         grassHillView.backgroundColor = ERGreen
         logoLabel.font = UIFont(name: "Montserrat-Medium", size: 40)
@@ -56,6 +60,26 @@ class ERSplashViewController: UIViewController {
         loginPasswordTextField.layer.sublayerTransform = CATransform3DMakeTranslation(8, 0, 0)
         createNewAccountButton.isEnabled = false
     }
+    
+    //MARK: Location Handler
+    func setLocationGraphic(){
+        let geocoder = CLGeocoder()
+        let location = CLLocation(latitude: userLat, longitude: userLong)
+        
+        geocoder.reverseGeocodeLocation(location, completionHandler: { placemarks in
+            let array = placemarks.0
+            if let placemark = array?[0] {
+                self.locationLabel.text = placemark.locality
+            }
+            UIView.animate(withDuration: 0.5, animations: {
+                self.locationView.isHidden = false
+                self.getLocationButton.isHidden = true
+                self.view.layoutIfNeeded()
+            })
+        })
+
+    }
+    
 
     //MARK: Button Actions
     @IBAction func userTouchedLoginButton(_ sender: Any) {
@@ -89,10 +113,14 @@ class ERSplashViewController: UIViewController {
             let locValue:CLLocationCoordinate2D = locationManager.location!.coordinate
             userLat = locValue.latitude
             userLong = locValue.longitude
-            print(userLat)
-            print(userLong)
             createNewAccountButton.isEnabled = true
-            createNewAccountButton.isHidden = false
+            setLocationGraphic()
+            
+        } else if CLLocationManager.authorizationStatus() == CLAuthorizationStatus.denied {
+            let alert = UIAlertController(title: "Location Services Disabled", message: "Please enable location services for this app in Settings.", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+            present(alert, animated: true, completion: nil)
+            alert.addAction(okAction)
         }
     }
 
