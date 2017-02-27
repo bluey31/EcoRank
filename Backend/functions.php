@@ -21,10 +21,8 @@ function hashPassword($password, $salt){
 }
 
 function newSalt(){
-    echo time();
-    $cost = 20;
+    $cost = 5;
     $salt = strtr(base64_encode(random_bytes(16)), '+', '.');
     $salt = sprintf("$2a$%02d$", $cost) . $salt;
-    echo time();
     return $salt;
 }

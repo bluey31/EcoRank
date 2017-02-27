@@ -19,7 +19,7 @@ $pwhash = hashPassword($password, $salt);
 
 
 $user = run_db(function($db) use ($username, $pwhash, $lat, $long, $salt) {
-    return  sqlquery($db, [
+    return sqlquery($db, [
         "INSERT INTO Users (username, password, salt, latitude, longitude, houseClassifier) VALUES (:username, :password, :salt, :lat, :long, 0)",
         "SELECT * FROM Users WHERE username=:username",
     ],

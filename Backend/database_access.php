@@ -152,7 +152,7 @@ function run_db($function) {
 
     # Open the database for editing
     try {
-        $db = new SQLite3("db/database.db");
+        $db = new SQLite3("../db/database.db");
     } catch (Exception $e) {
         $build_check = false;
         error_log("SQL opening error: $e at ".__FILE__.":".__LINE__);
