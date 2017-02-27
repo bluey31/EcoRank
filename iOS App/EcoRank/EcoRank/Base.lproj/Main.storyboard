@@ -384,10 +384,10 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AWl-Ex-mod">
-                                        <rect key="frame" x="0.0" y="87" width="375" height="586.5"/>
+                                        <rect key="frame" x="0.0" y="87" width="375" height="587"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="My House" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LUz-UO-Pl6">
-                                                <rect key="frame" x="18" y="18" width="252" height="26.5"/>
+                                                <rect key="frame" x="18" y="18" width="252" height="27"/>
                                                 <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="20"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -403,7 +403,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="N11-a6-8AV">
-                                                <rect key="frame" x="26" y="61.5" width="154" height="111"/>
+                                                <rect key="frame" x="26" y="62" width="154" height="111"/>
                                                 <subviews>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Coral Rect" translatesAutoresizingMaskIntoConstraints="NO" id="zcx-W2-sl0">
                                                         <rect key="frame" x="0.0" y="0.0" width="154" height="111"/>
@@ -443,7 +443,7 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Sdr-3g-vlK">
-                                                <rect key="frame" x="195" y="61.5" width="154" height="111"/>
+                                                <rect key="frame" x="195" y="62" width="154" height="111"/>
                                                 <subviews>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" verticalHuggingPriority="251" image="Coral Rect" translatesAutoresizingMaskIntoConstraints="NO" id="5vw-uU-Ocy">
                                                         <rect key="frame" x="0.0" y="0.0" width="154" height="111"/>
@@ -487,6 +487,22 @@
                                                 <subviews>
                                                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OWB-kr-Fkf">
                                                         <rect key="frame" x="0.0" y="0.0" width="349" height="150"/>
+                                                        <subviews>
+                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MWM-Oj-y1H">
+                                                                <rect key="frame" x="0.0" y="0.0" width="349" height="150"/>
+                                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="width" constant="349" id="GFE-dh-RUc"/>
+                                                                </constraints>
+                                                            </view>
+                                                        </subviews>
+                                                        <constraints>
+                                                            <constraint firstAttribute="trailing" secondItem="MWM-Oj-y1H" secondAttribute="trailing" id="7q7-C2-xbU"/>
+                                                            <constraint firstItem="MWM-Oj-y1H" firstAttribute="leading" secondItem="OWB-kr-Fkf" secondAttribute="leading" id="EO6-RI-GmY"/>
+                                                            <constraint firstItem="MWM-Oj-y1H" firstAttribute="centerY" secondItem="OWB-kr-Fkf" secondAttribute="centerY" id="I7M-7q-SSL"/>
+                                                            <constraint firstAttribute="bottom" secondItem="MWM-Oj-y1H" secondAttribute="bottom" id="QbK-2F-naJ"/>
+                                                            <constraint firstItem="MWM-Oj-y1H" firstAttribute="top" secondItem="OWB-kr-Fkf" secondAttribute="top" id="hLC-ag-39G"/>
+                                                        </constraints>
                                                     </scrollView>
                                                 </subviews>
                                                 <color key="backgroundColor" red="0.95686274510000002" green="0.49139792300000001" blue="0.33044376889999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -558,8 +574,10 @@
                     </view>
                     <connections>
                         <outlet property="cloudTopConstraint" destination="va2-T3-HFS" id="A1a-hz-KKg"/>
+                        <outlet property="horizontalDeviceModuleContainerView" destination="MWM-Oj-y1H" id="VST-3Q-3FP"/>
                         <outlet property="horizontalDeviceModuleParentView" destination="seu-0A-Ato" id="a3D-iT-uYC"/>
                         <outlet property="horizontalDeviceModuleScrollView" destination="OWB-kr-Fkf" id="RMp-Cu-8iy"/>
+                        <outlet property="horizontalDeviceModuleWidth" destination="GFE-dh-RUc" id="noJ-ji-gvF"/>
                         <outlet property="scrollContainerView" destination="AWl-Ex-mod" id="BtE-6J-10a"/>
                     </connections>
                 </viewController>

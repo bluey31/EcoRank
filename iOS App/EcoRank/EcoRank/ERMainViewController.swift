@@ -15,6 +15,8 @@ class ERMainViewController: UIViewController {
     
     @IBOutlet weak var horizontalDeviceModuleParentView: UIView!
     @IBOutlet weak var horizontalDeviceModuleScrollView: UIScrollView!
+    @IBOutlet weak var horizontalDeviceModuleContainerView: UIView!
+    @IBOutlet weak var horizontalDeviceModuleWidth: NSLayoutConstraint!
     
     override func viewWillAppear(_ animated: Bool) {
         // Beginning value for constraint so the cloud is off the screen
@@ -44,7 +46,9 @@ class ERMainViewController: UIViewController {
             let newX = (i * 200) + (i * gap)
             let newDevModule: ERDeviceModule = ERDeviceModule.instanceOfNib(deviceName: "Light Blub af", energyConsumptionPerHour: 69.69)
             newDevModule.frame = CGRect(x: newX, y: 0, width: 200, height: 144)
-            horizontalDeviceModuleScrollView.addSubview(newDevModule)
+            horizontalDeviceModuleContainerView.addSubview(newDevModule)
+            // Width of module = 200, width of gap = 20
+            horizontalDeviceModuleWidth.constant += 220
         }
     }
     
