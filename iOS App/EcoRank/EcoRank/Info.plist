@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>We need to use your location to allow us to fully analyse your data.</string>
+	<string>EcoRank needs to use your location so we can put you on a global leaderboard against other users.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>We need to use your location to allow us to fully analyse your data.</string>
+	<string>EcoRank needs to use your location so we can put you on a global leaderboard against other users.</string>
 	<key>CFBundleAllowMixedLocalizations</key>
 	<true/>
 	<key>UIViewControllerBasedStatusBarAppearance</key>

@@ -10,34 +10,34 @@ import UIKit
 import CoreLocation
 
 class ERSplashViewController: UIViewController {
-    
+
     @IBOutlet weak var grassHillView: UIView!
     @IBOutlet weak var logoLabel: UILabel!
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var signUpButton: UIButton!
     @IBOutlet weak var createNewAccountButton: UIButton!
-    
+
     @IBOutlet weak var loginView: UIView!
     @IBOutlet weak var signUpView: UIView!
     @IBOutlet weak var loginUsernameTextField: UITextField!
     @IBOutlet weak var loginPasswordTextField: UITextField!
     @IBOutlet weak var signupUsernameTextField: UITextField!
     @IBOutlet weak var signupPasswordTextField: UITextField!
-    
+
     @IBOutlet weak var greenHillBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var titleTopConstraint: NSLayoutConstraint!
-    
+
     var userLat = 0.0
     var userLong = 0.0
     let locationManager = CLLocationManager()
-    
+
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         setupView()
     }
 
@@ -56,12 +56,12 @@ class ERSplashViewController: UIViewController {
         loginPasswordTextField.layer.sublayerTransform = CATransform3DMakeTranslation(8, 0, 0)
         createNewAccountButton.isEnabled = false
     }
-    
+
     //MARK: Button Actions
     @IBAction func userTouchedLoginButton(_ sender: Any) {
         moveHill(createNewUser: false)
     }
-    
+
     @IBAction func userTouchedSignUpButton(_ sender: Any) {
         moveHill(createNewUser: true)
     }
@@ -72,15 +72,15 @@ class ERSplashViewController: UIViewController {
         }else{
             loginUsernameTextField.text = ""
             loginPasswordTextField.text = ""
-            
+
             let alertController = UIAlertController(title: "Illegal Character in Username", message: "Please use standard characters (excluding &, =, etc) in your username.", preferredStyle: .alert)
-            
+
             let OKAction = UIAlertAction(title: "OK", style: .default)
             alertController.addAction(OKAction)
             self.present(alertController, animated: true)
         }
     }
-    
+
     @IBAction func userTouchedGetLocation(_ sender: Any) {
         locationManager.requestWhenInUseAuthorization()
         if CLLocationManager.authorizationStatus() == CLAuthorizationStatus.authorizedWhenInUse {
@@ -92,17 +92,17 @@ class ERSplashViewController: UIViewController {
             print(userLat)
             print(userLong)
             createNewAccountButton.isEnabled = true
+            createNewAccountButton.isHidden = false
         }
-        
     }
-    
+
     @IBAction func userConfirmedCreateNewAccount(_ sender: Any) {
         var request = URLRequest(url: URL(string: "https://ecorank.xsanda.me/users")!)
         request.httpMethod = "POST"
-        
+
         let username = signupUsernameTextField.text!
         let password = signupPasswordTextField.text!
-        
+
         let postString = "username=\(username)&password=\(password)&long=\(userLong)&lat=\(userLat)"
         request.httpBody = postString.data(using: .utf8)
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
@@ -111,7 +111,7 @@ class ERSplashViewController: UIViewController {
                 print("error=\(error)")
                 return
             }
-            
+
             // Check for HTTP errors
             if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {
                 print("statusCode should be 200, but is \(httpStatus.statusCode)")
@@ -121,15 +121,14 @@ class ERSplashViewController: UIViewController {
             
             let responseString = String(data: data, encoding: .utf8)
             print("responseString = \(responseString)")
-            
+
             print("Loading main screen")
             self.successfulLogin(response: responseString!)
-            
+
         }
         task.resume()
-
     }
-    
+
     // MARK: HTTP Requests
     func postLoginDetails(username: String, password: String){
         var request = URLRequest(url: URL(string: "https://ecorank.xsanda.me/login")!)
@@ -142,20 +141,20 @@ class ERSplashViewController: UIViewController {
                 print("error=\(error)")
                 return
             }
-            
+
             // Check for HTTP errors
             if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {
                 print("statusCode should be 200, but is \(httpStatus.statusCode)")
                 print("Response = \(response)")
                 return
             }
-            
+
             //let trialResult = self.dataToJSON(data: data)
             //print("JSON:" + "\(trialResult)")
-            
+
             let responseString = String(data: data, encoding: .utf8)
             print("responseString = \(responseString)")
-            
+
             //if responseString == "hi" {
                 // Load Main screen
                 print("Loading main screen")
@@ -169,12 +168,12 @@ class ERSplashViewController: UIViewController {
         DispatchQueue.main.async {
             let localUser = ERUser.init(id: 1, username: "brendon", longitude: 0.444533432, latitude: -0.32542352, houseClassifier: 2)
             print("\(localUser.username) logged in")
-            
+
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "ERMainViewController") as! ERMainViewController
             self.present(vc, animated: false, completion: nil)
         }
     }
-    
+
     //MARK: JSON Parser
     func dataToJSON(data: Data) -> Any? {
         do {
@@ -185,7 +184,7 @@ class ERSplashViewController: UIViewController {
         }
         return nil
     }
-    
+
     //MARK: Animation Handlers
     func moveHill(createNewUser: Bool){
         UIView.animate(withDuration: 0.75, animations: {
@@ -196,7 +195,7 @@ class ERSplashViewController: UIViewController {
              self.presentUserInput(createNewUser: createNewUser)
         })
     }
-    
+
     func presentUserInput(createNewUser: Bool){
         if !createNewUser {
             self.loginView.isHidden = false
@@ -213,4 +212,3 @@ class ERSplashViewController: UIViewController {
         }
     }
 }
-
