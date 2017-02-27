@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 class ERSplashViewController: UIViewController {
     
@@ -22,8 +23,6 @@ class ERSplashViewController: UIViewController {
     @IBOutlet weak var loginPasswordTextField: UITextField!
     @IBOutlet weak var signupUsernameTextField: UITextField!
     @IBOutlet weak var signupPasswordTextField: UITextField!
-    
-    
     
     @IBOutlet weak var greenHillBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var titleTopConstraint: NSLayoutConstraint!
@@ -78,6 +77,19 @@ class ERSplashViewController: UIViewController {
     }
     
     @IBAction func userTouchedGetLocation(_ sender: Any) {
+        let locationManager = CLLocationManager()
+        // Ask for Authorisation from the User.
+        locationManager.requestAlwaysAuthorization()
+        
+        // For use in foreground
+        locationManager.requestWhenInUseAuthorization()
+        
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            locationManager.startUpdatingLocation()
+            let locValue:CLLocationCoordinate2D = locationManager.location!.coordinate
+            print("locations = \(locValue.latitude) \(locValue.longitude)")
+        }
         
     }
     
