@@ -6,6 +6,9 @@ RewriteCond %{THE_REQUEST} POST
 RewriteRule ^login$ /login.php [L]
 
 RewriteCond %{THE_REQUEST} POST
+RewriteRule ^logout$ /logout.php [L]
+
+RewriteCond %{THE_REQUEST} POST
 RewriteRule ^users$ /register.php [L]
 
 RewriteCond %{ENV:REDIRECT_STATUS} ^$
