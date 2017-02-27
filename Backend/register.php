@@ -39,7 +39,7 @@ $user = run_db(function($db) use ($username, $pwhash, $lat, $long, $salt) {
         $tokenTaken = sqlquery($db,"SELECT userId FROM Sessions WHERE token = :token", ["token" => $token], SQL_SINGLE|SQL_MULTIPLE);
     } while(!empty($tokenTaken));
     sqlstmt($db,"INSERT INTO Sessions (userId, token) VALUES (:userId, :token)",
-        ["userId" => $user[userId],"token" => $token]);
+        ["userId" => $user["userId"],"token" => $token]);
     return $user;
 });
 
