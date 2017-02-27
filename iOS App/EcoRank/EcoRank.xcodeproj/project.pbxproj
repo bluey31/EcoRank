@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		69895E2F1E643A9A002AAF7B /* HomeKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69895E2E1E643A9A002AAF7B /* HomeKit.framework */; };
 		DA4B20821E6240C9008988B6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4B20811E6240C9008988B6 /* AppDelegate.swift */; };
 		DA4B20841E6240C9008988B6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4B20831E6240C9008988B6 /* ViewController.swift */; };
 		DA4B20871E6240C9008988B6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA4B20851E6240C9008988B6 /* Main.storyboard */; };
@@ -15,6 +16,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		69895E2E1E643A9A002AAF7B /* HomeKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HomeKit.framework; path = System/Library/Frameworks/HomeKit.framework; sourceTree = SDKROOT; };
+		69895E301E643A9A002AAF7B /* EcoRank.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = EcoRank.entitlements; sourceTree = "<group>"; };
 		DA4B207E1E6240C9008988B6 /* EcoRank.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EcoRank.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA4B20811E6240C9008988B6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DA4B20831E6240C9008988B6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -29,17 +32,27 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				69895E2F1E643A9A002AAF7B /* HomeKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		69895E2D1E643A9A002AAF7B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				69895E2E1E643A9A002AAF7B /* HomeKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		DA4B20751E6240C9008988B6 = {
 			isa = PBXGroup;
 			children = (
 				DA4B20801E6240C9008988B6 /* EcoRank */,
 				DA4B207F1E6240C9008988B6 /* Products */,
+				69895E2D1E643A9A002AAF7B /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -54,6 +67,7 @@
 		DA4B20801E6240C9008988B6 /* EcoRank */ = {
 			isa = PBXGroup;
 			children = (
+				69895E301E643A9A002AAF7B /* EcoRank.entitlements */,
 				DA4B20811E6240C9008988B6 /* AppDelegate.swift */,
 				DA4B20831E6240C9008988B6 /* ViewController.swift */,
 				DA4B20851E6240C9008988B6 /* Main.storyboard */,
@@ -96,7 +110,13 @@
 				TargetAttributes = {
 					DA4B207D1E6240C9008988B6 = {
 						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = V5YSHRDD9B;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.HomeKit = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -258,6 +278,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = EcoRank/EcoRank.entitlements;
+				DEVELOPMENT_TEAM = V5YSHRDD9B;
 				INFOPLIST_FILE = EcoRank/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ER.EcoRank;
@@ -270,6 +292,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = EcoRank/EcoRank.entitlements;
+				DEVELOPMENT_TEAM = V5YSHRDD9B;
 				INFOPLIST_FILE = EcoRank/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ER.EcoRank;
@@ -297,6 +321,7 @@
 				DA4B20921E6240C9008988B6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
