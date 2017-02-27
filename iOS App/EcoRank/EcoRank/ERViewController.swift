@@ -34,9 +34,10 @@ class ViewController: UIViewController {
     }
 
     @IBAction func userTouchedLoginButton(_ sender: Any) {
-        UIView.performWithoutAnimation {
-            performSegue(withIdentifier: "segueToLoginScreen", sender: sender)
-        }
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "loginViewController") as! loginViewController
+        self.present(vc, animated: false, completion: nil)
     }
+    
+
 }
 

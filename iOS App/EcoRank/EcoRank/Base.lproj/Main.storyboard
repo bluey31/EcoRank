@@ -60,17 +60,17 @@
                         <outlet property="loginButton" destination="Xib-S6-NEw" id="oiW-S8-t7l"/>
                         <outlet property="logoLabel" destination="0lC-4L-cZq" id="Ff4-Kk-kRC"/>
                         <outlet property="signUpButton" destination="MRm-uC-kv1" id="SAd-CW-f7G"/>
-                        <segue destination="kqj-it-say" kind="custom" identifier="segueToLoginScreen" animates="NO" id="BdQ-dv-Fup"/>
+                        <segue destination="kqj-it-say" kind="custom" identifier="segueToLoginScreen" customClass="CustomSegueFade" customModule="EcoRank" customModuleProvider="target" animates="NO" id="BdQ-dv-Fup"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="94" y="153"/>
         </scene>
-        <!--Login View Controller-->
+        <!--loginViewController-->
         <scene sceneID="O5I-Hq-9yV">
             <objects>
-                <viewController id="kqj-it-say" customClass="loginViewController" customModule="EcoRank" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="loginViewController" title="loginViewController" id="kqj-it-say" customClass="loginViewController" customModule="EcoRank" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ghY-xG-3O7"/>
                         <viewControllerLayoutGuide type="bottom" id="JP3-6e-Xts"/>
@@ -78,24 +78,6 @@
                     <view key="view" contentMode="scaleToFill" id="G2H-VC-Pdy">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8qB-qf-PxE">
-                                <rect key="frame" x="0.0" y="431" width="375" height="236"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                            </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="EcoRank." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ppv-hh-0QC">
-                                <rect key="frame" x="0.0" y="98" width="375" height="62"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="32"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="House" translatesAutoresizingMaskIntoConstraints="NO" id="IHc-ud-cwm">
-                                <rect key="frame" x="30" y="302" width="315" height="177"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                 </viewController>
