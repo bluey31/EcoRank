@@ -2,7 +2,6 @@ CREATE TABLE IF NOT EXISTS Users (
     userId INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
     username TEXT UNIQUE,
     password TEXT,
-    energyConsumtion REAL,
     longitude REAL,
     latutude REAL,
     houseClassifier INTEGER

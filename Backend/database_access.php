@@ -6,6 +6,9 @@
  * Time: 16:07
  */
 
+define("SQL_MULTIPLE",0b1);
+define("SQL_SINGLE", 0b10);
+
 /**
  * Executes one or more SQL statements.
  *
