@@ -260,7 +260,7 @@
                                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bristol, UK" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="95R-Ei-KXJ">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loc" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="95R-Ei-KXJ">
                                                         <rect key="frame" x="104" y="53" width="98" height="23"/>
                                                         <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="17"/>
                                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -334,6 +334,9 @@
                             <constraint firstItem="5BK-xW-hyX" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="wVh-5z-ZnM"/>
                             <constraint firstItem="6bJ-uh-ksv" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="y0D-Fj-omn"/>
                         </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="U6a-5O-36m" appends="YES" id="Gjb-IA-yTI"/>
+                        </connections>
                     </view>
                     <connections>
                         <outlet property="createNewAccountButton" destination="GtN-Pv-ekR" id="OwU-uR-gfm"/>
@@ -356,6 +359,12 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="U6a-5O-36m">
+                    <connections>
+                        <action selector="tapGestureHandler:" destination="BYZ-38-t0r" id="3gy-be-NTs"/>
+                        <outlet property="delegate" destination="BYZ-38-t0r" id="7Ui-1v-GPr"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="93.599999999999994" y="152.47376311844079"/>
         </scene>

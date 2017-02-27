@@ -9,7 +9,7 @@
 import UIKit
 import CoreLocation
 
-class ERSplashViewController: UIViewController {
+class ERSplashViewController: UIViewController, UIGestureRecognizerDelegate {
 
     @IBOutlet weak var grassHillView: UIView!
     @IBOutlet weak var logoLabel: UILabel!
@@ -241,6 +241,19 @@ class ERSplashViewController: UIViewController {
             UIView.animate(withDuration: 0.5, animations: {
                 self.signUpView.alpha = 1.0
             })
+        }
+    }
+    
+    //MARK: Gesture Handlers
+    
+    @IBAction func tapGestureHandler(_ sender: UITapGestureRecognizer) {
+        if loginPasswordTextField.isFirstResponder || loginUsernameTextField.isFirstResponder || signupPasswordTextField.isFirstResponder || signupUsernameTextField.isFirstResponder {
+            print("hi")
+            loginPasswordTextField.resignFirstResponder()
+            loginUsernameTextField.resignFirstResponder()
+            signupPasswordTextField.resignFirstResponder()
+            signupUsernameTextField.resignFirstResponder()
+            
         }
     }
 }
