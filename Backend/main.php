@@ -7,8 +7,8 @@
  */
 
 $array = [];
-$max = (int) $_GET['max'];
-for($i = 0; $i < $max ?: 10; $i++) $array[] = $i;
+$max = array_key_exists('max', $_GET) ? $_GET['max'] : 10;
+for($i = 0; $i < $max; $i++) $array[] = $i;
 
 header('Content-Type: application/json');
 echo json_encode($array);
