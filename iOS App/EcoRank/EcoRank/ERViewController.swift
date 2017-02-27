@@ -9,11 +9,15 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
+        // The sky is always blue
+        self.view.backgroundColor = ERSkyBlue
     }
 
 

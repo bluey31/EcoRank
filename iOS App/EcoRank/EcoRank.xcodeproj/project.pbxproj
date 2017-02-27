@@ -12,10 +12,11 @@
 		69241AAA1E64615700DE153F /* Montserrat-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 69241AA71E64615700DE153F /* Montserrat-Medium.otf */; };
 		69241AAB1E64615700DE153F /* Montserrat-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 69241AA81E64615700DE153F /* Montserrat-Regular.otf */; };
 		DA4B20821E6240C9008988B6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4B20811E6240C9008988B6 /* AppDelegate.swift */; };
-		DA4B20841E6240C9008988B6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4B20831E6240C9008988B6 /* ViewController.swift */; };
+		DA4B20841E6240C9008988B6 /* ERViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4B20831E6240C9008988B6 /* ERViewController.swift */; };
 		DA4B20871E6240C9008988B6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA4B20851E6240C9008988B6 /* Main.storyboard */; };
 		DA4B20891E6240C9008988B6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA4B20881E6240C9008988B6 /* Assets.xcassets */; };
 		DA4B208C1E6240C9008988B6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA4B208A1E6240C9008988B6 /* LaunchScreen.storyboard */; };
+		DAC939F31E64641C00ABDA5B /* ERColours.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC939F21E64641C00ABDA5B /* ERColours.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,11 +27,12 @@
 		69895E301E643A9A002AAF7B /* EcoRank.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = EcoRank.entitlements; sourceTree = "<group>"; };
 		DA4B207E1E6240C9008988B6 /* EcoRank.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EcoRank.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA4B20811E6240C9008988B6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		DA4B20831E6240C9008988B6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		DA4B20831E6240C9008988B6 /* ERViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ERViewController.swift; sourceTree = "<group>"; };
 		DA4B20861E6240C9008988B6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		DA4B20881E6240C9008988B6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DA4B208B1E6240C9008988B6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DA4B208D1E6240C9008988B6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DAC939F21E64641C00ABDA5B /* ERColours.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ERColours.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,13 +86,14 @@
 		DA4B20801E6240C9008988B6 /* EcoRank */ = {
 			isa = PBXGroup;
 			children = (
-				69241AA51E6460F300DE153F /* Resources */,
 				69895E301E643A9A002AAF7B /* EcoRank.entitlements */,
 				DA4B20811E6240C9008988B6 /* AppDelegate.swift */,
-				DA4B20831E6240C9008988B6 /* ViewController.swift */,
+				DAC939F21E64641C00ABDA5B /* ERColours.swift */,
+				DA4B20831E6240C9008988B6 /* ERViewController.swift */,
 				DA4B20851E6240C9008988B6 /* Main.storyboard */,
 				DA4B208A1E6240C9008988B6 /* LaunchScreen.storyboard */,
 				DA4B208D1E6240C9008988B6 /* Info.plist */,
+				69241AA51E6460F300DE153F /* Resources */,
 			);
 			path = EcoRank;
 			sourceTree = "<group>";
@@ -176,8 +179,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DA4B20841E6240C9008988B6 /* ViewController.swift in Sources */,
+				DA4B20841E6240C9008988B6 /* ERViewController.swift in Sources */,
 				DA4B20821E6240C9008988B6 /* AppDelegate.swift in Sources */,
+				DAC939F31E64641C00ABDA5B /* ERColours.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
