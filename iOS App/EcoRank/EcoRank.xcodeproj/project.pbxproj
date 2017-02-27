@@ -18,6 +18,7 @@
 		DA4B20891E6240C9008988B6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA4B20881E6240C9008988B6 /* Assets.xcassets */; };
 		DA4B208C1E6240C9008988B6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA4B208A1E6240C9008988B6 /* LaunchScreen.storyboard */; };
 		DAC939F31E64641C00ABDA5B /* ERColours.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC939F21E64641C00ABDA5B /* ERColours.swift */; };
+		DAC939FC1E64935400ABDA5B /* ERUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC939FB1E64935400ABDA5B /* ERUser.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +36,7 @@
 		DA4B208B1E6240C9008988B6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DA4B208D1E6240C9008988B6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DAC939F21E64641C00ABDA5B /* ERColours.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ERColours.swift; sourceTree = "<group>"; };
+		DAC939FB1E64935400ABDA5B /* ERUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ERUser.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,6 +93,7 @@
 				69895E301E643A9A002AAF7B /* EcoRank.entitlements */,
 				DA4B20811E6240C9008988B6 /* AppDelegate.swift */,
 				DAC939F21E64641C00ABDA5B /* ERColours.swift */,
+				DAC939FB1E64935400ABDA5B /* ERUser.swift */,
 				DA4B20831E6240C9008988B6 /* ERSplashViewController.swift */,
 				69241AAC1E646E2100DE153F /* ERMainViewController.swift */,
 				DA4B20851E6240C9008988B6 /* Main.storyboard */,
@@ -186,6 +189,7 @@
 				DA4B20841E6240C9008988B6 /* ERSplashViewController.swift in Sources */,
 				DA4B20821E6240C9008988B6 /* AppDelegate.swift in Sources */,
 				DAC939F31E64641C00ABDA5B /* ERColours.swift in Sources */,
+				DAC939FC1E64935400ABDA5B /* ERUser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
