@@ -315,10 +315,24 @@
                                     <constraint firstAttribute="trailing" secondItem="LFV-S3-IOc" secondAttribute="trailing" id="oga-Gx-sJa"/>
                                 </constraints>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nf2-sS-geW">
+                                <rect key="frame" x="19" y="35" width="28" height="28"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="28" id="aNw-3y-sa5"/>
+                                    <constraint firstAttribute="height" constant="28" id="fRg-Hr-Nan"/>
+                                </constraints>
+                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <state key="normal" image="Cross"/>
+                                <connections>
+                                    <action selector="quitButtonTouched:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ixE-VL-EYT"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="mbO-rR-dqR" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="0gv-cD-hHz"/>
+                            <constraint firstItem="0lC-4L-cZq" firstAttribute="leading" secondItem="Nf2-sS-geW" secondAttribute="trailing" constant="-15" id="573-du-var"/>
                             <constraint firstAttribute="trailingMargin" secondItem="5BK-xW-hyX" secondAttribute="trailing" constant="16" id="5uW-lQ-vF3"/>
                             <constraint firstItem="mbO-rR-dqR" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="-16" id="EaT-Lp-Yhe"/>
                             <constraint firstItem="5BK-xW-hyX" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="16" id="PFD-Xy-P0C"/>
@@ -330,6 +344,7 @@
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="UIV-p4-oew" secondAttribute="bottom" id="dkD-Wq-oHh"/>
                             <constraint firstItem="UIV-p4-oew" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="eBC-ps-2Zf"/>
                             <constraint firstAttribute="trailing" secondItem="UIV-p4-oew" secondAttribute="trailing" id="eH4-XW-lYY"/>
+                            <constraint firstItem="Nf2-sS-geW" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="15" id="g7G-5h-haH"/>
                             <constraint firstItem="0lC-4L-cZq" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="iFU-KQ-MEw"/>
                             <constraint firstItem="5BK-xW-hyX" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="wVh-5z-ZnM"/>
                             <constraint firstItem="6bJ-uh-ksv" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="y0D-Fj-omn"/>
@@ -350,6 +365,7 @@
                         <outlet property="loginUsernameTextField" destination="D8L-am-hId" id="tqe-3f-tTe"/>
                         <outlet property="loginView" destination="5BK-xW-hyX" id="hvK-9p-vW8"/>
                         <outlet property="logoLabel" destination="0lC-4L-cZq" id="Ff4-Kk-kRC"/>
+                        <outlet property="quitButton" destination="Nf2-sS-geW" id="Whl-Ki-aiN"/>
                         <outlet property="signUpButton" destination="MRm-uC-kv1" id="SAd-CW-f7G"/>
                         <outlet property="signUpView" destination="mbO-rR-dqR" id="aIy-Zx-4CP"/>
                         <outlet property="signupPasswordTextField" destination="3iI-GS-xnc" id="MfM-yK-Jge"/>
@@ -589,6 +605,7 @@
     <resources>
         <image name="Cloud" width="187" height="71"/>
         <image name="Coral Rect" width="73" height="44"/>
+        <image name="Cross" width="100" height="100"/>
         <image name="House" width="236" height="133"/>
         <image name="Login Button" width="104" height="27"/>
         <image name="Tick" width="528" height="528"/>

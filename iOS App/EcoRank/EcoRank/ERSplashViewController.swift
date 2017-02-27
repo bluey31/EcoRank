@@ -17,6 +17,7 @@ class ERSplashViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var signUpButton: UIButton!
     @IBOutlet weak var createNewAccountButton: UIButton!
     @IBOutlet weak var getLocationButton: UIButton!
+    @IBOutlet weak var quitButton: UIButton!
 
     @IBOutlet weak var loginView: UIView!
     @IBOutlet weak var signUpView: UIView!
@@ -46,8 +47,9 @@ class ERSplashViewController: UIViewController, UIGestureRecognizerDelegate {
 
     func setupView(){
         self.view.backgroundColor = ERSkyBlue
-        self.loginView.isHidden = true
+        loginView.isHidden = true
         locationView.isHidden = true
+        quitButton.alpha = 0
         loginView.backgroundColor = UIColor.clear
         grassHillView.backgroundColor = ERGreen
         logoLabel.font = UIFont(name: "Montserrat-Medium", size: 40)
@@ -84,6 +86,23 @@ class ERSplashViewController: UIViewController, UIGestureRecognizerDelegate {
     //MARK: Button Actions
     @IBAction func userTouchedLoginButton(_ sender: Any) {
         moveHill(createNewUser: false)
+    }
+    
+    @IBAction func quitButtonTouched(_ sender: Any) {
+        UIView.animate(withDuration: 0.5, animations: {
+            self.loginView.alpha = 0
+            self.locationView.alpha = 0
+            self.signUpView.alpha = 0
+            self.quitButton.alpha = 0
+            self.view.layoutIfNeeded()
+
+        }, completion: { (finished: Bool) in
+            UIView.animate(withDuration: 0.75, animations: {
+                self.greenHillBottomConstraint.constant += 220
+                self.titleTopConstraint.constant += 50
+                self.view.layoutIfNeeded()
+            })
+        })
     }
 
     @IBAction func userTouchedSignUpButton(_ sender: Any) {
@@ -234,18 +253,21 @@ class ERSplashViewController: UIViewController, UIGestureRecognizerDelegate {
             self.loginView.alpha = 0
             UIView.animate(withDuration: 0.5, animations: {
             self.loginView.alpha = 1.0
+            self.quitButton.alpha = 1
             })
         } else {
             self.signUpView.isHidden = false
             self.signUpView.alpha = 0
             UIView.animate(withDuration: 0.5, animations: {
                 self.signUpView.alpha = 1.0
+                self.quitButton.alpha = 1
             })
+                
         }
+        
     }
     
     //MARK: Gesture Handlers
-    
     @IBAction func tapGestureHandler(_ sender: UITapGestureRecognizer) {
         if loginPasswordTextField.isFirstResponder || loginUsernameTextField.isFirstResponder || signupPasswordTextField.isFirstResponder || signupUsernameTextField.isFirstResponder {
             print("hi")
@@ -253,7 +275,6 @@ class ERSplashViewController: UIViewController, UIGestureRecognizerDelegate {
             loginUsernameTextField.resignFirstResponder()
             signupPasswordTextField.resignFirstResponder()
             signupUsernameTextField.resignFirstResponder()
-            
         }
     }
 }
