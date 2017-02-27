@@ -28,6 +28,7 @@ $dbdata = run_db(function($db) use ($username, $password) {
         ["userId" => $user["userId"],"token" => $token]);
     return [
         "userId" => $user["userId"],
+        "token" => $token,
     ];
 });
 
