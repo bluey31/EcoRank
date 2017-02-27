@@ -10,21 +10,29 @@ import UIKit
 
 class ERMainViewController: UIViewController {
 
+    @IBOutlet weak var cloudTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var scrollContainerView: UIView!
+    
+    override func viewWillAppear(_ animated: Bool) {
+        cloudTopConstraint.constant = -148
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        animateClouds()
+        self.view.backgroundColor = ERSkyBlue
+    }
     
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
+    func animateClouds(){
+        UIView.animate(withDuration: 0.75, animations: {
+            self.cloudTopConstraint.constant = -51
+            self.view.layoutIfNeeded()
+        }, completion: { (finished: Bool) in
+            self.animateText()
+        })
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    
+    
+    func animateText() {
+        
     }
-    */
-
 }
