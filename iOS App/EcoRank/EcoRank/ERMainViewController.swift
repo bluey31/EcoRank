@@ -14,6 +14,7 @@ class ERMainViewController: UIViewController {
     @IBOutlet weak var scrollContainerView: UIView!
     
     override func viewWillAppear(_ animated: Bool) {
+        // Beginning value for constraint so the cloud is off the screen
         cloudTopConstraint.constant = -148
     }
     override func viewDidAppear(_ animated: Bool) {
@@ -24,7 +25,8 @@ class ERMainViewController: UIViewController {
     
     func animateClouds(){
         UIView.animate(withDuration: 0.75, animations: {
-            self.cloudTopConstraint.constant = -51
+            // finishing position for the cloud
+            self.cloudTopConstraint.constant = -43
             self.view.layoutIfNeeded()
         }, completion: { (finished: Bool) in
             self.animateText()
