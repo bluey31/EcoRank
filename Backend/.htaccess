@@ -1,5 +1,10 @@
 RewriteEngine On
-RewriteRule ^(phpinfo)$ $1.php [L]
+
+RewriteRule ^max/([^/]*)$ /main.php?max=$1 [L]
+
+RewriteCond %{THE_REQUEST} POST
+RewriteRule ^login$ /login.php [L]
+
 RewriteCond %{ENV:REDIRECT_STATUS} ^$
 RewriteRule php - [F,L]
-RewriteRule ^max/([^/]*)$ /main.php?max=$1 [L]
+RewriteRule db - [F,L]
