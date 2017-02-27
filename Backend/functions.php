@@ -15,10 +15,10 @@ function fail($errorCode = 403) {
     die;
 }
 
-function hash($password){
+function createHash($password){
     $cost = 20;
     $salt = strtr(base64_encode(random_bytes(16)), '+', '.');
     $salt = sprintf("$2a$%02d$", $cost) . $salt;
     $hash = crypt($password, $salt);
-    return $hash;
+    return [$hash,$salt];
 }
