@@ -20,9 +20,9 @@ class ERDeviceModule : UIView{
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        backgroundView.backgroundColor = ERGreen
+        backgroundView.backgroundColor = UIColor.clear
         self.deviceNameLabel.text = ERDeviceModule.deviceName
-        self.deviceEnergyConsumptionLabel.text = "\(ERDeviceModule.energyConsumptionPerHour)"
+        self.deviceEnergyConsumptionLabel.text = "Energy used per hour: \(ERDeviceModule.energyConsumptionPerHour!)W"
     }
     
     // Return the view when called

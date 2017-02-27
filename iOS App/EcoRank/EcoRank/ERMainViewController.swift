@@ -41,14 +41,19 @@ class ERMainViewController: UIViewController {
     
     func addTestBoxes(){
         let gap = 20
+        let deviceArraySize = 6
         
-        for i in 0...6 {
-            let newX = (i * 200) + (i * gap)
+        // Width of module = 200, width of gap = 20 * the amount of devices
+        let widthOfContainer = 220*deviceArraySize
+        horizontalDeviceModuleWidth.constant = CGFloat(widthOfContainer)
+        self.view.layoutIfNeeded()
+        
+        for j in 0...deviceArraySize-1 {
+            // 16 is our offset
+            let newX = (j * 200) + (j * gap) + 16
             let newDevModule: ERDeviceModule = ERDeviceModule.instanceOfNib(deviceName: "Light Blub af", energyConsumptionPerHour: 69.69)
             newDevModule.frame = CGRect(x: newX, y: 0, width: 200, height: 144)
             horizontalDeviceModuleContainerView.addSubview(newDevModule)
-            // Width of module = 200, width of gap = 20
-            horizontalDeviceModuleWidth.constant += 220
         }
     }
     
