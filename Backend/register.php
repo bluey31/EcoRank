@@ -26,7 +26,7 @@ $salt = newSalt();
 $pwhash = hashPassword($password, $salt);
 
 
-$user = run_db(function($db) use ($username, $pwhash, $lat, $long, $salt) {
+$dbdata = run_db(function($db) use ($username, $pwhash, $lat, $long, $salt) {
     $existingUser = sqlquery($db,"SELECT userId FROM Users WHERE username = :name", ["name" => $username], SQL_SINGLE|SQL_MULTIPLE);
     if (!empty($existingUser)) fail(409, "username already exists");
     $user = sqlquery($db, [
@@ -40,10 +40,10 @@ $user = run_db(function($db) use ($username, $pwhash, $lat, $long, $salt) {
     } while(!empty($tokenTaken));
     sqlstmt($db,"INSERT INTO Sessions (userId, token) VALUES (:userId, :token)",
         ["userId" => $user["userId"],"token" => $token]);
-    return $user;
+    return [
+        "userId" => $user["userId"],
+        "token" => $token,
+    ];
 });
 
-
-
-var_dump($user);
-print "hi";
+echo json_encode($dbdata);
