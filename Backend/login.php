@@ -18,9 +18,8 @@ else if (!$password){
 }
 $dbdata = run_db(function($db) use ($username, $password) {
     $user = sqlquery($db,"SELECT * FROM Users WHERE  username = :name", ["name" => $username]);
-    if($user["salt"] === false) fail(401,"incorrect username or password");
-    $pwhash = hashPassword($password,$user["salt"]);
-    if($user["password"] != $pwhash) fail(401,"incorrect username or password");
+    if($user === false) fail(401,"incorrect username or password");
+    if(!password_verify($password,$user["password"])) fail(401,"incorrect username or password");
     do {
         $token = strtr(base64_encode(random_bytes(32)), '+', '.');
         $tokenTaken = sqlquery($db,"SELECT userId FROM Sessions WHERE token = :token", ["token" => $token], SQL_SINGLE|SQL_MULTIPLE);
@@ -29,7 +28,6 @@ $dbdata = run_db(function($db) use ($username, $password) {
         ["userId" => $user["userId"],"token" => $token]);
     return [
         "userId" => $user["userId"],
-        "token" => $token
     ];
 });
 
