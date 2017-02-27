@@ -189,6 +189,8 @@
                         <outlet property="grassHillView" destination="UIV-p4-oew" id="bLT-zz-HWC"/>
                         <outlet property="greenHillBottomConstraint" destination="dkD-Wq-oHh" id="o0p-kg-sHa"/>
                         <outlet property="loginButton" destination="Xib-S6-NEw" id="oiW-S8-t7l"/>
+                        <outlet property="loginPasswordTextField" destination="nnh-Dx-5m3" id="Kjf-tp-C02"/>
+                        <outlet property="loginUsernameTextField" destination="D8L-am-hId" id="tqe-3f-tTe"/>
                         <outlet property="loginView" destination="5BK-xW-hyX" id="hvK-9p-vW8"/>
                         <outlet property="logoLabel" destination="0lC-4L-cZq" id="Ff4-Kk-kRC"/>
                         <outlet property="signUpButton" destination="MRm-uC-kv1" id="SAd-CW-f7G"/>

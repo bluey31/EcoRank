@@ -86,6 +86,9 @@ class ERSplashViewController: UIViewController {
                 return
             }
             
+            //let trialResult = self.dataToJSON(data: data)
+            //print("JSON:" + "\(trialResult)")
+            
             let responseString = String(data: data, encoding: .utf8)
             print("responseString = \(responseString)")
             
@@ -97,7 +100,7 @@ class ERSplashViewController: UIViewController {
         }
         task.resume()
     }
-    
+
     func successfulLogin(response: String){
         DispatchQueue.main.async {
             let localUser = ERUser.init(id: 1, username: "brendon", longitude: 0.444533432, latitude: -0.32542352, houseClassifier: 2)
@@ -106,6 +109,17 @@ class ERSplashViewController: UIViewController {
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "ERMainViewController") as! ERMainViewController
             self.present(vc, animated: false, completion: nil)
         }
+    }
+    
+    //MARK: JSON Parser
+    func dataToJSON(data: Data) -> Any? {
+        do {
+            let JSON = try JSONSerialization.jsonObject(with: data, options: .mutableContainers)
+            return JSON
+        } catch let error as NSError {
+            print("Error whilst trying to parse JSON: \(error.userInfo)")
+        }
+        return nil
     }
     
     //MARK: Animation Handlers
