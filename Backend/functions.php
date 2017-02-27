@@ -52,7 +52,7 @@ function getAuthorizationHeader(){
  * get access token from header ( http://stackoverflow.com/a/40582472/2275559 )
  * */
 function getBearerToken() {
-    $headers = $this->getAuthorizationHeader();
+    $headers = getAuthorizationHeader();
     // HEADER: Get the access token from the header
     if (!empty($headers)) {
         if (preg_match('/Bearer\s(\S+)/', $headers, $matches)) {
