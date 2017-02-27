@@ -12,7 +12,7 @@ $password = $_POST['password'];
 $lat = json_decode($_POST['lat']);
 $long = json_decode($_POST['long']);
 
-if (!$username || !$password || !$lat || !$long) fail(403);
+if (!$username || !$password || !is_numeric($lat) || !is_numveric($long)) fail(403);
 
 $salt = newSalt();
 $pwhash = hashPassword($password, $salt);
