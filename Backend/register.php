@@ -18,7 +18,7 @@ if (!$username){
 else if (!$password){
     fail(403,"no password supplied");
 }
-else if (!is_numeric($lat) || !is_numeric(long)){
+else if (!is_numeric($lat) || !is_numeric($long)){
     fail(403, "Location is NaN");
 }
 
