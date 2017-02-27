@@ -23,6 +23,7 @@ class ERMainViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         animateClouds()
         self.view.backgroundColor = ERSkyBlue
+        self.horizontalDeviceModuleParentView.backgroundColor = UIColor.clear
         addTestBoxes()
     }
     
@@ -40,8 +41,9 @@ class ERMainViewController: UIViewController {
         let gap = 20
         
         for i in 0...6 {
-            let newX = (i+1)*(200 + gap)
-            let newDevModule: ERDeviceModule = ERDeviceModule.init(x: newX, deviceName: "Light Blub af", energyConsumptionPerHour: 69.69)
+            let newX = (i * 200) + (i * gap)
+            let newDevModule: ERDeviceModule = ERDeviceModule.instanceOfNib(deviceName: "Light Blub af", energyConsumptionPerHour: 69.69)
+            newDevModule.frame = CGRect(x: newX, y: 0, width: 200, height: 144)
             horizontalDeviceModuleScrollView.addSubview(newDevModule)
         }
     }

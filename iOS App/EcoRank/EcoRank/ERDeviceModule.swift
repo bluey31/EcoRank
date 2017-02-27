@@ -15,17 +15,19 @@ class ERDeviceModule : UIView{
     @IBOutlet weak var deviceNameLabel: UILabel!
     @IBOutlet weak var deviceEnergyConsumptionLabel: UILabel!
     
+    static var deviceName: String!
+    static var energyConsumptionPerHour: Float!
+    
     override func awakeFromNib() {
+        super.awakeFromNib()
         backgroundView.backgroundColor = ERGreen
+        self.deviceNameLabel.text = ERDeviceModule.deviceName
+        self.deviceEnergyConsumptionLabel.text = "\(ERDeviceModule.energyConsumptionPerHour)"
     }
     
-    init(x: Int, deviceName: String, energyConsumptionPerHour: Float) {
-        self.deviceNameLabel.text = deviceName
-        self.deviceEnergyConsumptionLabel.text = "\(energyConsumptionPerHour)"
-        super.init(frame: CGRect(x: x, y: 0, width: 200, height: 144))
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
-}
+    // Return the view when called
+    class func instanceOfNib(deviceName: String!, energyConsumptionPerHour: Float!) -> ERDeviceModule {
+        self.deviceName = deviceName
+        self.energyConsumptionPerHour = energyConsumptionPerHour
+        return UINib(nibName: "ERDeviceModule", bundle: nil).instantiate(withOwner: nil, options: nil)[0] as! ERDeviceModule
+    }}
