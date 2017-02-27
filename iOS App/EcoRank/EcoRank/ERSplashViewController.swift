@@ -29,6 +29,7 @@ class ERSplashViewController: UIViewController {
     
     var userLat = 0.0
     var userLong = 0.0
+    let locationManager = CLLocationManager()
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -36,6 +37,7 @@ class ERSplashViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         setupView()
     }
 
@@ -80,25 +82,49 @@ class ERSplashViewController: UIViewController {
     }
     
     @IBAction func userTouchedGetLocation(_ sender: Any) {
-        let locationManager = CLLocationManager()
-        // Ask for Authorisation from the User.
-        locationManager.requestAlwaysAuthorization()
-        
-        // For use in foreground
         locationManager.requestWhenInUseAuthorization()
-        
-        if CLLocationManager.locationServicesEnabled() {
+        if CLLocationManager.authorizationStatus() == CLAuthorizationStatus.authorizedWhenInUse {
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             locationManager.startUpdatingLocation()
             let locValue:CLLocationCoordinate2D = locationManager.location!.coordinate
             userLat = locValue.latitude
             userLong = locValue.longitude
+            print(userLat)
+            print(userLong)
+            createNewAccountButton.isEnabled = true
         }
         
     }
     
     @IBAction func userConfirmedCreateNewAccount(_ sender: Any) {
+        var request = URLRequest(url: URL(string: "https://ecorank.xsanda.me/users")!)
+        request.httpMethod = "POST"
         
+        let username = signupUsernameTextField.text!
+        let password = signupPasswordTextField.text!
+        
+        let postString = "username=\(username)&password=\(password)&long=\(userLong)&lat=\(userLat)"
+        request.httpBody = postString.data(using: .utf8)
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            // Check for fundamental networking error
+            guard let data = data, error == nil else {
+                print("error=\(error)")
+                return
+            }
+            
+            // Check for HTTP errors
+            if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {
+                print("statusCode should be 200, but is \(httpStatus.statusCode)")
+                print("Response = \(response)")
+                return
+            }
+            
+            let responseString = String(data: data, encoding: .utf8)
+            print("responseString = \(responseString)")
+            
+        }
+        task.resume()
+
     }
     
     // MARK: HTTP Requests
