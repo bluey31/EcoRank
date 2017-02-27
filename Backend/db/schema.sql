@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS Users (
     password TEXT,
     salt TEXT,
     longitude REAL,
-    latutude REAL,
+    latitude REAL,
     houseClassifier INTEGER
 );
 CREATE TABLE IF NOT EXISTS Devices (
