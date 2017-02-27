@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by IntelliJ IDEA.
- * User: xsanda
+ * User: xsanda loves George Michael
  * Date: 27/02/2017
  * Time: 17:31
  */
