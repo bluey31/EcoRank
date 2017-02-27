@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by IntelliJ IDEA.
- * User: xsanda isn't the best
+ * User: xsanda
  * Date: 27/02/2017
  * Time: 16:30
  */
