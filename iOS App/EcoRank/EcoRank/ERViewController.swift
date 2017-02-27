@@ -8,12 +8,16 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ERViewController: UIViewController {
     
     @IBOutlet weak var grassHillView: UIView!
     @IBOutlet weak var logoLabel: UILabel!
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var signUpButton: UIButton!
+    
+    @IBOutlet weak var greenHillBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var titleTopConstraint: NSLayoutConstraint!
+    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
@@ -34,10 +38,17 @@ class ViewController: UIViewController {
     }
 
     @IBAction func userTouchedLoginButton(_ sender: Any) {
-        let vc = self.storyboard?.instantiateViewController(withIdentifier: "loginViewController") as! loginViewController
-        self.present(vc, animated: false, completion: nil)
+        //let vc = self.storyboard?.instantiateViewController(withIdentifier: "ERLoginViewController") as! ERViewController
+        moveHill()
+        //self.present(vc, animated: false, completion: nil)
     }
     
-
+    func moveHill(){
+        UIView.animate(withDuration: 1.52, animations: {
+            self.greenHillBottomConstraint.constant -= 220
+            self.titleTopConstraint.constant -= 50
+            self.view.layoutIfNeeded()
+        })
+    }
 }
 

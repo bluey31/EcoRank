@@ -9,10 +9,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--ERLoginViewController-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="EcoRank" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ERLoginViewController" title="ERLoginViewController" id="BYZ-38-t0r" customClass="ERViewController" customModule="EcoRank" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -21,51 +21,80 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UIV-p4-oew">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UIV-p4-oew">
                                 <rect key="frame" x="0.0" y="431" width="375" height="236"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xib-S6-NEw">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xib-S6-NEw">
                                         <rect key="frame" x="89" y="76" width="197" height="62"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="197" id="9Av-Dc-DtM"/>
+                                            <constraint firstAttribute="height" constant="62" id="T65-hl-ThT"/>
+                                        </constraints>
                                         <state key="normal" title="Login" backgroundImage="Login Button"/>
                                         <connections>
                                             <action selector="userTouchedLoginButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="svc-lm-LiY"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MRm-uC-kv1">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MRm-uC-kv1">
                                         <rect key="frame" x="98" y="146" width="178" height="51"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="51" id="fS9-k2-qod"/>
+                                            <constraint firstAttribute="width" constant="178" id="pNf-d3-msd"/>
+                                        </constraints>
                                         <state key="normal" title="Sign Up" backgroundImage="Login Button"/>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstItem="MRm-uC-kv1" firstAttribute="centerX" secondItem="UIV-p4-oew" secondAttribute="centerX" id="Hys-IC-6qW"/>
+                                    <constraint firstAttribute="bottom" secondItem="MRm-uC-kv1" secondAttribute="bottom" constant="39" id="Ijn-ae-XiR"/>
+                                    <constraint firstAttribute="height" constant="236" id="MG3-86-Q9d"/>
+                                    <constraint firstItem="MRm-uC-kv1" firstAttribute="top" secondItem="Xib-S6-NEw" secondAttribute="bottom" constant="8" id="Urj-jo-nex"/>
+                                    <constraint firstItem="Xib-S6-NEw" firstAttribute="centerX" secondItem="UIV-p4-oew" secondAttribute="centerX" id="kU6-ll-DOU"/>
+                                </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="EcoRank." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0lC-4L-cZq">
-                                <rect key="frame" x="0.0" y="98" width="375" height="62"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="House" translatesAutoresizingMaskIntoConstraints="NO" id="6bJ-uh-ksv">
+                                <rect key="frame" x="30" y="302" width="315" height="177"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="315" id="Hho-xF-8cp"/>
+                                    <constraint firstAttribute="height" constant="177" id="JM4-aV-paV"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="EcoRank." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0lC-4L-cZq">
+                                <rect key="frame" x="32" y="97" width="311" height="62"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="62" id="fTf-ft-aj7"/>
+                                    <constraint firstAttribute="width" constant="311" id="xPM-5i-Dgf"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="32"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="House" translatesAutoresizingMaskIntoConstraints="NO" id="6bJ-uh-ksv">
-                                <rect key="frame" x="30" y="302" width="315" height="177"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="0lC-4L-cZq" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="77" id="T5m-AW-ced"/>
+                            <constraint firstItem="UIV-p4-oew" firstAttribute="top" secondItem="6bJ-uh-ksv" secondAttribute="bottom" constant="-48" id="aSk-DI-V3c"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="UIV-p4-oew" secondAttribute="bottom" id="dkD-Wq-oHh"/>
+                            <constraint firstItem="UIV-p4-oew" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="eBC-ps-2Zf"/>
+                            <constraint firstAttribute="trailing" secondItem="UIV-p4-oew" secondAttribute="trailing" id="eH4-XW-lYY"/>
+                            <constraint firstItem="0lC-4L-cZq" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="iFU-KQ-MEw"/>
+                            <constraint firstItem="6bJ-uh-ksv" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="y0D-Fj-omn"/>
+                        </constraints>
                     </view>
                     <connections>
                         <outlet property="grassHillView" destination="UIV-p4-oew" id="bLT-zz-HWC"/>
+                        <outlet property="greenHillBottomConstraint" destination="dkD-Wq-oHh" id="o0p-kg-sHa"/>
                         <outlet property="loginButton" destination="Xib-S6-NEw" id="oiW-S8-t7l"/>
                         <outlet property="logoLabel" destination="0lC-4L-cZq" id="Ff4-Kk-kRC"/>
                         <outlet property="signUpButton" destination="MRm-uC-kv1" id="SAd-CW-f7G"/>
+                        <outlet property="titleTopConstraint" destination="T5m-AW-ced" id="XaT-yY-Pud"/>
                         <segue destination="kqj-it-say" kind="custom" identifier="segueToLoginScreen" customClass="CustomSegueFade" customModule="EcoRank" customModuleProvider="target" animates="NO" id="BdQ-dv-Fup"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="94" y="153"/>
+            <point key="canvasLocation" x="93.599999999999994" y="152.47376311844079"/>
         </scene>
         <!--loginViewController-->
         <scene sceneID="O5I-Hq-9yV">
