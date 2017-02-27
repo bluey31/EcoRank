@@ -13,13 +13,13 @@ $lat = json_decode($_POST['lat']);
 $long = json_decode($_POST['long']);
 
 if (!$username){
-    fail(403,"no username supplied");
+    fail(403,2,"no username supplied");
 }
 else if (!$password){
-    fail(403,"no password supplied");
+    fail(403,3,"no password supplied");
 }
 else if (!is_numeric($lat) || !is_numeric($long)){
-    fail(403, "Location is NaN");
+    fail(403,5, "Location is NaN");
 }
 
 $salt = newSalt();
@@ -28,7 +28,7 @@ $pwhash = hashPassword($password, $salt);
 
 $dbdata = run_db(function($db) use ($username, $pwhash, $lat, $long, $salt) {
     $existingUser = sqlquery($db,"SELECT userId FROM Users WHERE username = :name", ["name" => $username], SQL_SINGLE|SQL_MULTIPLE);
-    if (!empty($existingUser)) fail(409, "username already exists");
+    if (!empty($existingUser)) fail(409,6, "username already exists");
     $user = sqlquery($db, [
         "INSERT INTO Users (username, password, salt, latitude, longitude, houseClassifier) VALUES (:username, :password, :salt, :lat, :long, 0)",
         "SELECT * FROM Users WHERE username=:username",

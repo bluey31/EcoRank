@@ -9,9 +9,9 @@ require_once "database_access.php";
 
 header('Content-Type: application/json');
 
-function fail($errorCode = 403, $message = "") {
-    http_response_code($errorCode);
-    echo json_encode(["error"=>$message]);
+function fail($httpCode = 403, $errorCode = -1, $message = "") {
+    http_response_code($httpCode);
+    echo json_encode(["error"=>$message,"errorCode"=>$errorCode]);
     die;
 }
 
