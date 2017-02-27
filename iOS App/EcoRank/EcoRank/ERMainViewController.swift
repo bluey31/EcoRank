@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import HomeKit
 
-class ERMainViewController: UIViewController {
+class ERMainViewController: UIViewController, HMHomeManagerDelegate {
 
     @IBOutlet weak var cloudTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var scrollContainerView: UIView!
@@ -22,11 +23,13 @@ class ERMainViewController: UIViewController {
         // Beginning value for constraint so the cloud is off the screen
         cloudTopConstraint.constant = -148
     }
+    
     override func viewDidAppear(_ animated: Bool) {
         animateClouds()
         self.view.backgroundColor = ERSkyBlue
         self.horizontalDeviceModuleParentView.backgroundColor = UIColor.clear
         addTestBoxes()
+        testHomeKit()
     }
     
     func animateClouds(){
@@ -59,5 +62,16 @@ class ERMainViewController: UIViewController {
     
     func animateText() {
         
+    }
+    
+    func testHomeKit(){
+        let homeMananger = HMHomeManager()
+        homeMananger.delegate = self
+        let home = homeMananger.primaryHome!
+        for room in home.rooms {
+            for accessory in room.accessories {
+                print("Name : \(accessory.name), UUID \(accessory.uniqueIdentifier)")
+            }
+        }
     }
 }
