@@ -22,8 +22,7 @@ CREATE TABLE IF NOT EXISTS EnergyConsumption(
 CREATE TABLE IF NOT EXISTS Sessions(
     userId INTEGER
         REFERENCES Users(userId) on delete cascade on update cascade,
-    token TEXT,
-    expiry INTEGER
+    token TEXT
 );
 CREATE TABLE IF NOT EXISTS UserDevices(
     userId INTEGER
