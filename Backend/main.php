@@ -5,5 +5,6 @@
  * Date: 27/02/2017
  * Time: 12:55
  */
-$x = 5;
-print $x.PHP_EOL;
+for($i =0; $i < 10; $i+=1){
+    print($i."/n");
+}
