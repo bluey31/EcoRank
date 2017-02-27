@@ -14,6 +14,7 @@ class ERViewController: UIViewController {
     @IBOutlet weak var logoLabel: UILabel!
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var signUpButton: UIButton!
+    @IBOutlet weak var loginView: ERLoginForm!
     
     @IBOutlet weak var greenHillBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var titleTopConstraint: NSLayoutConstraint!
@@ -41,8 +42,13 @@ class ERViewController: UIViewController {
         //let vc = self.storyboard?.instantiateViewController(withIdentifier: "ERLoginViewController") as! ERViewController
         moveHill()
         //self.present(vc, animated: false, completion: nil)
+        self.loginView.alpha = 0
+        self.loginView.addSubview(ERLoginForm.instanceFromNib())
+        UIView.animate(withDuration: 1.52, animations: {
+            self.loginView.alpha = 1.0
+        })
     }
-    
+
     func moveHill(){
         UIView.animate(withDuration: 1.52, animations: {
             self.greenHillBottomConstraint.constant -= 220

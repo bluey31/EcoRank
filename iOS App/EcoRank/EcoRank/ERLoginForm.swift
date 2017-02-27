@@ -11,4 +11,7 @@ import UIKit
 
 class ERLoginForm : UIView {
     
+    class func instanceFromNib() -> ERLoginForm {
+        return UINib(nibName: "ERLoginForm", bundle: nil).instantiate(withOwner: nil, options: nil)[0] as! ERLoginForm
+    }
 }

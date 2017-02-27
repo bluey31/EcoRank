@@ -20,6 +20,7 @@
 		DAC939F31E64641C00ABDA5B /* ERColours.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC939F21E64641C00ABDA5B /* ERColours.swift */; };
 		DAC939F51E64707000ABDA5B /* ERLoginForm.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAC939F41E64707000ABDA5B /* ERLoginForm.xib */; };
 		DAC939F71E6473B500ABDA5B /* ERLoginForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC939F61E6473B500ABDA5B /* ERLoginForm.swift */; };
+		DAC939FA1E647B8000ABDA5B /* UIView+loadFromNib.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC939F91E647B8000ABDA5B /* UIView+loadFromNib.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +40,7 @@
 		DAC939F21E64641C00ABDA5B /* ERColours.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ERColours.swift; sourceTree = "<group>"; };
 		DAC939F41E64707000ABDA5B /* ERLoginForm.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ERLoginForm.xib; sourceTree = "<group>"; };
 		DAC939F61E6473B500ABDA5B /* ERLoginForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ERLoginForm.swift; sourceTree = "<group>"; };
+		DAC939F91E647B8000ABDA5B /* UIView+loadFromNib.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+loadFromNib.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +96,7 @@
 			children = (
 				69895E301E643A9A002AAF7B /* EcoRank.entitlements */,
 				DA4B20811E6240C9008988B6 /* AppDelegate.swift */,
+				DAC939F91E647B8000ABDA5B /* UIView+loadFromNib.swift */,
 				DAC939F21E64641C00ABDA5B /* ERColours.swift */,
 				DA4B20831E6240C9008988B6 /* ERViewController.swift */,
 				69241AAC1E646E2100DE153F /* ERLoginViewController.swift */,
@@ -197,6 +200,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DAC939FA1E647B8000ABDA5B /* UIView+loadFromNib.swift in Sources */,
 				69241AAD1E646E2100DE153F /* ERLoginViewController.swift in Sources */,
 				DAC939F71E6473B500ABDA5B /* ERLoginForm.swift in Sources */,
 				DA4B20841E6240C9008988B6 /* ERViewController.swift in Sources */,
