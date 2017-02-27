@@ -35,7 +35,7 @@ $dbdata = run_db(function($db) use ($username, $pwhash, $lat, $long, $salt) {
     ],
         ["username" => $username, "password" => $pwhash, "lat" => $lat, "long" => $long, "salt" => $salt]);
     do {
-        $token = random_bytes(32);
+        $token = strtr(base64_encode(random_bytes(32)), '+', '.');
         $tokenTaken = sqlquery($db,"SELECT userId FROM Sessions WHERE token = :token", ["token" => $token], SQL_SINGLE|SQL_MULTIPLE);
     } while(!empty($tokenTaken));
     sqlstmt($db,"INSERT INTO Sessions (userId, token) VALUES (:userId, :token)",
@@ -46,4 +46,4 @@ $dbdata = run_db(function($db) use ($username, $pwhash, $lat, $long, $salt) {
     ];
 });
 
-echo json_encode($dbdata);
+echo json_encode($dbdata) . PHP_EOL;

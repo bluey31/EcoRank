@@ -119,12 +119,12 @@ function sqlquery($db, $sql, $values=[],$flags=0) {
             # Fetch each row (cell if $single is set) into an array
             $result = [];
 
-            while ($next = $exec->fetchArray(SQLITE3_ASSOC)) {
+            while ($next = $exec->fetchArray(SQLITE3_BOTH)) {
                 $result[] = $single ? $next[0] : $next;
             }
         } else {
             # Fetch the first row (cell if $single is set)
-            $result = $exec->fetchArray(SQLITE3_ASSOC);
+            $result = $exec->fetchArray(SQLITE3_BOTH);
             if ($single) $result = $result[0];
         }
     } catch (Exception $e) {
