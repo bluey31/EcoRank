@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ERLoginViewController: UIViewController {
+class ERMainViewController: UIViewController {
 
     
     

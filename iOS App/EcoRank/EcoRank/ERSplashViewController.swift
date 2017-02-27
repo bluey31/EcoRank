@@ -8,13 +8,13 @@
 
 import UIKit
 
-class ERViewController: UIViewController {
+class ERSplashViewController: UIViewController {
     
     @IBOutlet weak var grassHillView: UIView!
     @IBOutlet weak var logoLabel: UILabel!
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var signUpButton: UIButton!
-    @IBOutlet weak var loginView: ERLoginForm!
+    @IBOutlet weak var loginView: UIView!
     
     @IBOutlet weak var greenHillBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var titleTopConstraint: NSLayoutConstraint!
@@ -30,6 +30,8 @@ class ERViewController: UIViewController {
 
     func setupView(){
         self.view.backgroundColor = ERSkyBlue
+        self.loginView.isHidden = true
+        loginView.backgroundColor = UIColor.clear
         grassHillView.backgroundColor = ERGreen
         logoLabel.font = UIFont(name: "Montserrat-Medium", size: 40)
         logoLabel.textColor = UIColor.white
@@ -38,23 +40,39 @@ class ERViewController: UIViewController {
         signUpButton.titleLabel?.font = UIFont(name: "Montserrat-Medium", size: 20)
     }
 
+    
+    //MARK: Button Actions
     @IBAction func userTouchedLoginButton(_ sender: Any) {
-        //let vc = self.storyboard?.instantiateViewController(withIdentifier: "ERLoginViewController") as! ERViewController
         moveHill()
-        //self.present(vc, animated: false, completion: nil)
-        self.loginView.alpha = 0
-        self.loginView.addSubview(ERLoginForm.instanceFromNib())
-        UIView.animate(withDuration: 1.52, animations: {
-            self.loginView.alpha = 1.0
-        })
     }
 
+    @IBAction func userTouchedSubmitButton(_ sender: Any) {
+        //TODO: Validate user input
+        
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "ERMainViewController") as! ERMainViewController
+        self.present(vc, animated: false, completion: nil)
+    }
+    
+    //MARK: Animation Handlers
     func moveHill(){
-        UIView.animate(withDuration: 1.52, animations: {
+        
+        UIView.animate(withDuration: 0.75, animations: {
             self.greenHillBottomConstraint.constant -= 220
             self.titleTopConstraint.constant -= 50
             self.view.layoutIfNeeded()
+        }, completion: { (finished: Bool) in
+             self.presentUserInput()
         })
+       
+    }
+    
+    func presentUserInput(){
+        self.loginView.isHidden = false
+        self.loginView.alpha = 0
+        UIView.animate(withDuration: 0.5, animations: {
+            self.loginView.alpha = 1.0
+        })
+
     }
 }
 
