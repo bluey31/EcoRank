@@ -14,10 +14,16 @@ class ERSplashViewController: UIViewController {
     @IBOutlet weak var logoLabel: UILabel!
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var signUpButton: UIButton!
+    @IBOutlet weak var createNewAccountButton: UIButton!
     
     @IBOutlet weak var loginView: UIView!
+    @IBOutlet weak var signUpView: UIView!
     @IBOutlet weak var loginUsernameTextField: UITextField!
     @IBOutlet weak var loginPasswordTextField: UITextField!
+    @IBOutlet weak var signupUsernameTextField: UITextField!
+    @IBOutlet weak var signupPasswordTextField: UITextField!
+    
+    
     
     @IBOutlet weak var greenHillBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var titleTopConstraint: NSLayoutConstraint!
@@ -44,11 +50,16 @@ class ERSplashViewController: UIViewController {
         // Adds padding to our textfields
         loginUsernameTextField.layer.sublayerTransform = CATransform3DMakeTranslation(8, 0, 0)
         loginPasswordTextField.layer.sublayerTransform = CATransform3DMakeTranslation(8, 0, 0)
+        createNewAccountButton.isEnabled = false
     }
     
     //MARK: Button Actions
     @IBAction func userTouchedLoginButton(_ sender: Any) {
-        moveHill()
+        moveHill(createNewUser: false)
+    }
+    
+    @IBAction func userTouchedSignUpButton(_ sender: Any) {
+        moveHill(createNewUser: true)
     }
 
     @IBAction func userTouchedSubmitButton(_ sender: Any) {
@@ -64,6 +75,14 @@ class ERSplashViewController: UIViewController {
             alertController.addAction(OKAction)
             self.present(alertController, animated: true)
         }
+    }
+    
+    @IBAction func userTouchedGetLocation(_ sender: Any) {
+        
+    }
+    
+    @IBAction func userConfirmedCreateNewAccount(_ sender: Any) {
+        
     }
     
     // MARK: HTTP Requests
@@ -123,22 +142,30 @@ class ERSplashViewController: UIViewController {
     }
     
     //MARK: Animation Handlers
-    func moveHill(){
+    func moveHill(createNewUser: Bool){
         UIView.animate(withDuration: 0.75, animations: {
             self.greenHillBottomConstraint.constant -= 220
             self.titleTopConstraint.constant -= 50
             self.view.layoutIfNeeded()
         }, completion: { (finished: Bool) in
-             self.presentUserInput()
+             self.presentUserInput(createNewUser: createNewUser)
         })
     }
     
-    func presentUserInput(){
-        self.loginView.isHidden = false
-        self.loginView.alpha = 0
-        UIView.animate(withDuration: 0.5, animations: {
+    func presentUserInput(createNewUser: Bool){
+        if !createNewUser {
+            self.loginView.isHidden = false
+            self.loginView.alpha = 0
+            UIView.animate(withDuration: 0.5, animations: {
             self.loginView.alpha = 1.0
-        })
+            })
+        } else {
+            self.signUpView.isHidden = false
+            self.signUpView.alpha = 0
+            UIView.animate(withDuration: 0.5, animations: {
+                self.signUpView.alpha = 1.0
+            })
+        }
     }
 }
 
