@@ -1,19 +1,55 @@
 package main;
 
+import login.LoginWindow;
+import main.visualiser.VisualiserChoice;
+import server.Server;
+import server.ServerAccess;
+
 import javax.swing.*;
 import java.awt.*;
 
-public class Main extends JPanel {
+public class Main {
+
+    static ServerAccess access;
 
     public static void main(String[] args){
-        JFrame jFrame = new JFrame("EcoRank Admin Portal");
-        jFrame.setSize(800, 600);
-        jFrame.setVisible(true);
-        jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        jFrame.add(new Main());
+
+        boolean connection = Server.establishConnection();
+        System.out.println("Connection established: " + connection);
+        if(!connection){
+            JOptionPane.showMessageDialog(new JFrame(), "Connection failed");
+            System.exit(0);
+        }
+
+        LoginWindow.createLoginWindow();
 
     }
+
+    public static boolean attemptLogin(String username, char[] password){
+
+        String pass = new String(password);
+
+        System.out.println("Attempting Login: " + username + " " + pass);
+        access = Server.attemptLogin(username, password);
+
+        if(access == ServerAccess.NONE){
+            return false;
+        }
+
+        return true;
+
+    }
+
+    public static void login(){
+
+        System.out.println("Server Access: " + access);
+        VisualiserChoice.openChoices(access);
+
+
+    }
+
+    /*
 
     public Main(){
         repaint();
@@ -29,5 +65,6 @@ public class Main extends JPanel {
         g.fillRect(1600/3, 0, 800/3, 600);
         //g.drawString("Wagwarnen", 300, 200);
     }
+    */
 
 }
