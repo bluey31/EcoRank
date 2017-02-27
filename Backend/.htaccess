@@ -1,0 +1,5 @@
+RewriteEngine On
+RewriteRule ^(phpinfo)$ $1.php [L]
+RewriteCond %{ENV:REDIRECT_STATUS} ^$
+RewriteRule php - [F,L]
+RewriteRule ^max/([^/]*)$ /main.php?max=$1 [L]
