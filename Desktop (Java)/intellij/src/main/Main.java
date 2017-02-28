@@ -1,7 +1,10 @@
 package main;
 
 import login.LoginWindow;
+import main.visualiser.Heatmap;
+import main.visualiser.Visualiser;
 import main.visualiser.VisualiserChoice;
+import main.visualiser.VisualiserWindow;
 import server.Server;
 import server.ServerAccess;
 
@@ -14,8 +17,7 @@ public class Main {
 
     public static void main(String[] args){
 
-
-        boolean connection = Server.establishConnection();
+        boolean connection = Server.establishConnection(Server.LOGIN_URL);
         System.out.println("Connection established: " + connection);
         if(!connection){
             JOptionPane.showMessageDialog(new JFrame(), "Connection failed");
@@ -23,6 +25,9 @@ public class Main {
         }
 
         LoginWindow.createLoginWindow();
+
+        //VisualiserWindow window = new VisualiserWindow(new Heatmap());
+        //window.open();
 
     }
 

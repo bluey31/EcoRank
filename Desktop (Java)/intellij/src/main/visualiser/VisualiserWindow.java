@@ -41,6 +41,11 @@ public class VisualiserWindow implements Runnable{
             e.printStackTrace();
         }
 
+        GL11.glMatrixMode(GL11.GL_PROJECTION);
+        GL11.glLoadIdentity();
+        GL11.glOrtho(-1, 1, -1, 1, 1, -1);
+        GL11.glMatrixMode(GL11.GL_MODELVIEW);
+
         vis.init();
 
         while(this.open == true && Display.isCloseRequested() == false){

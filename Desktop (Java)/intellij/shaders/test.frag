@@ -1,26 +1,38 @@
 varying vec4 texCoord;
 varying vec4 vertColor;
 
-uniform float time, xPos, yPos, zoom;
-uniform float redConst, blueConst, greenConst;
-uniform float enlarge;
+uniform float time;
+uniform float zoom;
+uniform float xZoom;
+uniform float yZoom;
 
 void main(){
 
-    const float maximum = 200;
+    float x = texCoord.x * (4.0 / 3.0) * zoom + xZoom;
+    float y = texCoord.y * zoom + yZoom;
 
-    float x = 0.0;
-    float y = 0.0;
+    float amount = 100.0;
+    float stop = 0;
 
-    float x0 = (texCoord.x / zoom) + (xPos * enlarge);
-    float y0 = (texCoord.y / zoom) + (yPos * enlarge);
+    float xPos = x;
+    float yPos = y;
 
-    float realX0 = x0;
-    float realY0 = y0;
+    for(float i = 0; i < amount; i++){
+        stop = i;
+        if(xPos*xPos + yPos*yPos > 4){
+            break;
+        }
 
-    float red = abs(sin(realX0));
-    float blue = abs(sin(realY0));
-    float green = abs(cos(sqrt(realX0*realX0 + realY0*realY0 + time))  * sin(time/((realY0 + 1) * 10)) * cos(realX0));
+        float xTemp = xPos*xPos - yPos*yPos + x;
+        float yTemp = 2*xPos*yPos + y;
+        xPos = xTemp;
+        yPos = yTemp;
+    }
+
+
+    float red = mod(stop, mod(time, 12)) / mod(time, 12);
+    float green = mod(stop, mod(time + 23, 40)) / mod(time + 23, 40);
+    float blue = mod(stop, mod(time + 2, 7)) / mod(time + 2, 7);
 
     gl_FragColor = vec4(red, green, blue, 1.0);
 
