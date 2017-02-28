@@ -1,5 +1,7 @@
 RewriteEngine On
 
+RewriteRule ^geo.json$ /geojson.php [L]
+
 RewriteCond %{THE_REQUEST} POST
 RewriteRule ^login$ /login.php [L]
 
