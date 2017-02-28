@@ -8,6 +8,9 @@ RewriteRule ^login$ /login.php [L]
 RewriteCond %{THE_REQUEST} POST
 RewriteRule ^logout$ /logout.php [L]
 
+RewriteCond %{THE_REQUEST} POST
+RewriteRule ^users/(\d+)/consumption$ /logConsumption.php?id=$1 [L]
+
 RewriteCond %{THE_REQUEST} GET
 RewriteRule ^devices/(.+)$ /getDevice.php?id=$1 [L]
 

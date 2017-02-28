@@ -13,11 +13,11 @@ CREATE TABLE IF NOT EXISTS Devices (
     wattUsagePerHour REAL
 );
 CREATE TABLE IF NOT EXISTS EnergyConsumption(
-    energyLogID INTEGER PRIMARY KEY UNIQUE,
     userId INTEGER
         REFERENCES Users(userId) on delete cascade on update cascade,
     day NUMERIC,
-    energyUsed REAL
+    energyUsed REAL,
+    UNIQUE (userId, day) on conflict replace
 );
 CREATE TABLE IF NOT EXISTS Sessions(
     userId INTEGER
