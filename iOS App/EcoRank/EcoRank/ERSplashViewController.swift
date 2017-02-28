@@ -60,6 +60,8 @@ class ERSplashViewController: UIViewController, UIGestureRecognizerDelegate {
         // Adds padding to our textfields
         loginUsernameTextField.layer.sublayerTransform = CATransform3DMakeTranslation(8, 0, 0)
         loginPasswordTextField.layer.sublayerTransform = CATransform3DMakeTranslation(8, 0, 0)
+        signupUsernameTextField.layer.sublayerTransform = CATransform3DMakeTranslation(8, 0, 0)
+        signupPasswordTextField.layer.sublayerTransform = CATransform3DMakeTranslation(8, 0, 0)
         createNewAccountButton.isEnabled = false
     }
     
@@ -82,7 +84,6 @@ class ERSplashViewController: UIViewController, UIGestureRecognizerDelegate {
 
     }
     
-
     //MARK: Button Actions
     @IBAction func userTouchedLoginButton(_ sender: Any) {
         moveHill(createNewUser: false)
@@ -111,7 +112,7 @@ class ERSplashViewController: UIViewController, UIGestureRecognizerDelegate {
 
     @IBAction func userTouchedSubmitButton(_ sender: Any) {
         if !loginUsernameTextField.text!.contains("&"){
-            postLoginDetails(username: loginUsernameTextField.text!, password: loginPasswordTextField.text!)
+            ERLoginSignUp.loginWith(username: loginUsernameTextField.text!, password: loginPasswordTextField.text!, viewController: self)
         }else{
             loginUsernameTextField.text = ""
             loginPasswordTextField.text = ""
@@ -132,8 +133,10 @@ class ERSplashViewController: UIViewController, UIGestureRecognizerDelegate {
             let locValue:CLLocationCoordinate2D = locationManager.location!.coordinate
             userLat = locValue.latitude
             userLong = locValue.longitude
-            createNewAccountButton.isEnabled = true
-            setLocationGraphic()
+            DispatchQueue.main.async() {
+                self.createNewAccountButton.isEnabled = true
+                self.setLocationGraphic()
+            }
             
         } else if CLLocationManager.authorizationStatus() == CLAuthorizationStatus.denied {
             let alert = UIAlertController(title: "Location Services Disabled", message: "Please enable location services for this app in Settings.", preferredStyle: .alert)
@@ -142,79 +145,17 @@ class ERSplashViewController: UIViewController, UIGestureRecognizerDelegate {
             alert.addAction(okAction)
         }
     }
+    
+        // MARK: HTTP Requests
 
     @IBAction func userConfirmedCreateNewAccount(_ sender: Any) {
-        var request = URLRequest(url: URL(string: "https://ecorank.xsanda.me/users")!)
-        request.httpMethod = "POST"
-
         let username = signupUsernameTextField.text!
         let password = signupPasswordTextField.text!
-
-        let postString = "username=\(username)&password=\(password)&long=\(userLong)&lat=\(userLat)"
-        request.httpBody = postString.data(using: .utf8)
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            // Check for fundamental networking error
-            guard let data = data, error == nil else {
-                print("error=\(error)")
-                return
-            }
-
-            // Check for HTTP errors
-            if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {
-                print("statusCode should be 200, but is \(httpStatus.statusCode)")
-                print("Response = \(response)")
-                return
-            }
-            
-            let responseString = String(data: data, encoding: .utf8)
-            print("responseString = \(responseString)")
-
-            print("Loading main screen")
-            self.successfulLogin(response: responseString!)
-
-        }
-        task.resume()
+        
+        ERLoginSignUp.signUpWith(username: username, password: password, long: userLong, lat: userLat, viewController: self)
     }
 
-    // MARK: HTTP Requests
-    func postLoginDetails(username: String, password: String){
-        var request = URLRequest(url: URL(string: "https://ecorank.xsanda.me/login")!)
-        request.httpMethod = "POST"
-        let postString = "username=\(username)&password=\(password)"
-        request.httpBody = postString.data(using: .utf8)
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            // Check for fundamental networking error
-            guard let data = data, error == nil else {
-                print("error=\(error)")
-                return
-            }
-
-            // Check for HTTP errors
-            if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {
-                print("statusCode should be 200, but is \(httpStatus.statusCode)")
-                print("Response = \(response)")
-                
-                let responseString = String(data: data, encoding: .utf8)
-                print("responseString = \(responseString)")
-                
-                return
-            }
-
-            //let trialResult = self.dataToJSON(data: data)
-            //print("JSON:" + "\(trialResult)")
-
-            let responseString = String(data: data, encoding: .utf8)
-            print("responseString = \(responseString)")
-
-            //if responseString == "hi" {
-                // Load Main screen
-                print("Loading main screen")
-                self.successfulLogin(response: responseString!)
-            //}
-        }
-        task.resume()
-    }
-
+    
     func successfulLogin(response: String){
         DispatchQueue.main.async {
             let localUser = ERUser.init(id: 1, username: "brendon", longitude: 0.444533432, latitude: -0.32542352, houseClassifier: 2)
@@ -223,17 +164,6 @@ class ERSplashViewController: UIViewController, UIGestureRecognizerDelegate {
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "ERMainViewController") as! ERMainViewController
             self.present(vc, animated: false, completion: nil)
         }
-    }
-
-    //MARK: JSON Parser
-    func dataToJSON(data: Data) -> Any? {
-        do {
-            let JSON = try JSONSerialization.jsonObject(with: data, options: .mutableContainers)
-            return JSON
-        } catch let error as NSError {
-            print("Error whilst trying to parse JSON: \(error.userInfo)")
-        }
-        return nil
     }
 
     //MARK: Animation Handlers
