@@ -198,6 +198,42 @@ class ERLoginSignUp {
         }
         task.resume()
     }
+   
+    class func triggerPOSTLogOutRequestWith(reqUrl: String, authToken: String, viewController: UIViewController){
+        var request = URLRequest(url: URL(string: reqUrl)!)
+        request.httpMethod = "POST"
+        request.setValue("Bearer \(authToken)", forHTTPHeaderField: "Authorization")
+        
+    
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            // Check for fundamental networking error
+            guard let data = data, error == nil else {
+                print("error=\(error)")
+                return
+            }
+            
+            // Check for HTTP errors
+            if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {
+                print("statusCode should be 200, but is \(httpStatus.statusCode)")
+                print("Response = \(response)")
+                
+                let responseString = String(data: data, encoding: .utf8)?.replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
+                print("response (bad response) = \(responseString!))")
+                
+                let responseArr: [String: Any] = ERUtilities.dataToJSON(data: data) as! [String: Any]
+                print(responseArr["errorCode"] as! Int)
+                
+                ERUtilities.displayErrorToUserWith(userCode: responseArr["errorCode"] as! Int, viewController: viewController)
+                
+                return
+            }
+            
+            let responseString = String(data: data, encoding: .utf8)?.replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
+            //print("response (good response) = \(responseString!)")
+        
+        }
+        task.resume()
+    }
     
     // When we have a successful login we are passed the auth token and we have to extract and save it
     class func extractAndStoreAuthTokenAndUserIdFrom(responseData: Data){
