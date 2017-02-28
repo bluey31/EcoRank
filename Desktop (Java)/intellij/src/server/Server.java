@@ -8,11 +8,14 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class Server {
 
     final public static String LOGIN_URL = "https://ecorank.xsanda.me/login";
     final static String JSON_URL = "https://ecorank.xsanda.me/users";
+
+    static ArrayList<User> userDatabase;
 
     public static HttpsURLConnection createConnection(String url){
 
@@ -35,13 +38,10 @@ public class Server {
 
         return con;
     }
-
-    public static boolean establishConnection(String url){
+    public static boolean establishConnection(String url) {
         HttpsURLConnection connection = createConnection(url);
         return (connection != null);
     }
-
-
     public static String sendPOST(HttpsURLConnection con, String params) throws Exception {
         con.setRequestMethod("POST");
         con.setRequestProperty("User-Agent", "");
@@ -57,9 +57,9 @@ public class Server {
         wr.close();
 
         int responseCode = con.getResponseCode();
-        System.out.println("\nSending 'POST' request");
-        System.out.println("Post parameters : " + urlParameters);
-        System.out.println("Response Code : " + responseCode);
+        //System.out.println("\nSending 'POST' request");
+        //System.out.println("Post parameters : " + urlParameters);
+        //System.out.println("Response Code : " + responseCode);
 
 
         if(responseCode == 200){
@@ -92,8 +92,8 @@ public class Server {
         con.setRequestProperty("User-Agent", "");
 
         int responseCode = con.getResponseCode();
-        System.out.println("\nSending 'GET' request");
-        System.out.println("Response Code : " + responseCode);
+        //System.out.println("\nSending 'GET' request to " + con.getURL().toString());
+        //System.out.println("Response Code : " + responseCode);
 
         BufferedReader in = new BufferedReader(
                 new InputStreamReader(con.getInputStream()));
@@ -108,9 +108,8 @@ public class Server {
         //print result
         return response.toString();
     }
-
-    public static String getJSON(){
-        HttpsURLConnection con = createConnection(JSON_URL);
+    public static String getJSON(String extension){
+        HttpsURLConnection con = createConnection(JSON_URL + extension);
         if(con == null){
             System.out.println("JSON Connection error");
             return "";
@@ -124,7 +123,6 @@ public class Server {
 
         }
     }
-
     public static ServerAccess attemptLogin(String login, char[] password){
 
         HttpsURLConnection con = createConnection(LOGIN_URL);
@@ -155,4 +153,111 @@ public class Server {
         //Position
     }
 
+    public static ArrayList<User> getUserDatabase() {
+        return userDatabase;
+    }
+
+    public static String seekTo(String data, String name){
+
+        int start = 0;
+        boolean found = false;
+        for(int i = 0; i < data.length(); i++){
+            if(data.substring(i, i + name.length()).equals(name)) {
+                start = i + name.length();
+                found = true;
+                break;
+            }
+        }
+        if(found == false){
+            return "";
+        }
+
+        String output = "";
+        for(int i = start; i < data.length(); i++){
+            if(data.charAt(i) == ',' || data.charAt(i) == '}'){
+                break;
+            }
+            output += data.charAt(i);
+
+        }
+        return output;
+
+    }
+
+    public static UserHistory extractHistory(String data){
+        String day = seekTo(data, "day\":");
+        String energy = seekTo(data, "energyUsed\":");
+        UserHistory history = new UserHistory();
+        history.setDay(Long.parseLong(day));
+        history.setEnergyUsed(Double.parseDouble(energy));
+        return history;
+    }
+
+    public static void setHistoricalData(User user, String historicalData){
+
+        for(int i = 0; i < historicalData.length(); i++){
+            if(historicalData.charAt(i) == '{'){
+                for(int b = i; b < historicalData.length(); b++){
+                    if(historicalData.charAt(b) == '}'){
+                        user.historicalData.add(extractHistory(historicalData.substring(i + 1, b - 1)));
+                        break;
+                    }
+
+                }
+            }
+        }
+        if(user.historicalData.size() == 0){
+            user.setCorrupt(true);
+        }
+
+    }
+
+    public static void setUserData(User user) {
+        String accountData = getJSON("/" + user.getUserID());
+        String historicalData = getJSON("/" + user.getUserID() + "/consumption");
+        try {
+
+            String longitude = seekTo(accountData, "longitude\":");
+            String latitude = seekTo(accountData, "latitude\":");
+
+            if(longitude.equals("") || latitude.equals("")){
+                user.setCorrupt(true);
+                System.out.printf("User " + user.getUserID() + " is corrupt");
+            }else{
+                user.setLongitude(Double.parseDouble(seekTo(accountData, "longitude\":")));
+                user.setLongitude(Double.parseDouble(seekTo(accountData, "latitude\":")));
+                user.setCorrupt(false);
+            }
+        }catch(Exception e){
+            user.setCorrupt(true);
+            System.out.printf("User " + user.getUserID() + " is corrupt");
+        }
+
+        setHistoricalData(user, historicalData);
+
+    }
+
+    public static void initialiseUserDatabase(){
+        userDatabase = new ArrayList<User>();
+        String userList = getJSON("");
+        //System.out.println("User ID List: " + userList);
+        int idCurrent = 0;
+        for(int i = 0; i < userList.length(); i++){
+            if(userList.charAt(i) == '['){
+                continue;
+            }
+            if(userList.charAt(i) == ']' || userList.charAt(i) == ','){
+                User u = new User();
+                u.setUserID(idCurrent);
+                setUserData(u);
+                userDatabase.add(u);
+                idCurrent = 0;
+                System.out.print(".");
+                continue;
+            }
+            idCurrent = (idCurrent * 10) + Integer.parseInt("" + userList.charAt(i));
+        }
+        System.out.println("Initialised user database");
+
+    }
 }

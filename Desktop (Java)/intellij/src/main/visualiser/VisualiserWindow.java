@@ -52,6 +52,11 @@ public class VisualiserWindow implements Runnable{
             Display.update();
             vis.update();
             vis.render();
+            try {
+                thread.sleep(16);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
 
         Display.destroy();

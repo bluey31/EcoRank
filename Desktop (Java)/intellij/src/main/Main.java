@@ -22,6 +22,7 @@ public class Main {
             JOptionPane.showMessageDialog(new JFrame(), "Connection failed");
             System.exit(0);
         }
+        Server.initialiseUserDatabase();
 
         //LoginWindow.createLoginWindow();
         VisualiserChoice.openChoices();

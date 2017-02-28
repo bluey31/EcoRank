@@ -44,24 +44,24 @@ public class Heatmap extends Visualiser {
     public void update() {
 
         if(Keyboard.isKeyDown(Keyboard.KEY_E)){
-            zoomVal *= 0.99f;
+            zoomVal *= 0.999f;
         }
         if(Keyboard.isKeyDown(Keyboard.KEY_Q)){
-            zoomVal /= 0.99f;
+            zoomVal /= 0.999f;
         }
 
         if(Keyboard.isKeyDown(Keyboard.KEY_A)){
-            zoomX -= 0.0000001f * zoom;
+            zoomX -= 0.00001f * zoom;
         }
         if(Keyboard.isKeyDown(Keyboard.KEY_D)){
-            zoomX += 0.0000001f * zoom;;
+            zoomX += 0.00001f * zoom;;
         }
 
         if(Keyboard.isKeyDown(Keyboard.KEY_W)){
-            zoomY += 0.0000001f * zoom;
+            zoomY += 0.00001f * zoom;
         }
         if(Keyboard.isKeyDown(Keyboard.KEY_S)){
-            zoomY -= 0.0000001f * zoom;;
+            zoomY -= 0.00001f * zoom;;
         }
 
     }
