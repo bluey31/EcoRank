@@ -28,10 +28,27 @@
             padding: 0;
         }
     </style>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    </head>
 </head>
 <body>
 <div id="map"></div>
-<div id="banner"><img src="banner.png"> <p>Heatmap of user activity over past 24 hours</p></div>
+<div id="banner"><img src="banner.png"> <h3>Heatmap of user activity over past 24 hours</h3>
+    <div id="showhide"><p>EcoRank is a platform built for <a href="http://www.apple.com/uk/ios/home/">homekit</a> that evaluates the efficiency of your smart home and compares it to others.
+    It was developed by a team of 5 first year Computer Science students during the University of Bristol 2017 Hacking For The Environment Hackathon. </p>
+    <p>The project consists of a SQLite backend built in PHP, an accompanying iPhone app, as well as a windows based administration terminal built in Java.
+    We're currently up for acquisition for the reasonable price of £1million</p>
+    </div>
+</div>
+<script>
+    $(document).ready(function() {
+        $('#showhide').slideToggle("slow");
+        $('#banner').click(function() {
+            $('#showhide').slideToggle("fast");
+        });
+    });
+</script>
 <script>
     var map;
     function initMap() {
