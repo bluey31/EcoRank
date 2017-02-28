@@ -9,7 +9,7 @@
 import UIKit
 import HomeKit
 
-class ERMainViewController: UIViewController, HMHomeManagerDelegate {
+class ERMainViewController: UIViewController, HMHomeManagerDelegate, HMAccessoryBrowserDelegate {
 
     @IBOutlet weak var cloudTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var scrollContainerView: UIView!
@@ -18,6 +18,9 @@ class ERMainViewController: UIViewController, HMHomeManagerDelegate {
     @IBOutlet weak var horizontalDeviceModuleScrollView: UIScrollView!
     @IBOutlet weak var horizontalDeviceModuleContainerView: UIView!
     @IBOutlet weak var horizontalDeviceModuleWidth: NSLayoutConstraint!
+    let homeManager = HMHomeManager()
+    let browser = HMAccessoryBrowser()
+    var accessories = [HMAccessory]()
     
     override func viewWillAppear(_ animated: Bool) {
         // Beginning value for constraint so the cloud is off the screen
@@ -29,7 +32,29 @@ class ERMainViewController: UIViewController, HMHomeManagerDelegate {
         self.view.backgroundColor = ERSkyBlue
         self.horizontalDeviceModuleParentView.backgroundColor = UIColor.clear
         addTestBoxes()
+        
+        
+        //HomeKit
+        homeManager.delegate = self
+        browser.delegate = self
         testHomeKit()
+    }
+    
+    //MARK: Accessory delegate methods
+    
+    func stopSearching(){
+        print("stopping searchign for acc")
+        browser.stopSearchingForNewAccessories()
+        print(accessories)
+        manageAccessories()
+    }
+    
+    func accessoryBrowser(_ browser: HMAccessoryBrowser, didFindNewAccessory accessory: HMAccessory) {
+        accessories.append(accessory)
+    }
+    
+    func accessoryBrowser(_ browser: HMAccessoryBrowser, didRemoveNewAccessory accessory: HMAccessory) {
+        print("removed new accessory?")
     }
     
     func animateClouds(){
@@ -65,13 +90,60 @@ class ERMainViewController: UIViewController, HMHomeManagerDelegate {
     }
     
     func testHomeKit(){
-        let homeMananger = HMHomeManager()
-        homeMananger.delegate = self
-        let home = homeMananger.primaryHome!
-        for room in home.rooms {
-            for accessory in room.accessories {
-                print("Name : \(accessory.name), UUID \(accessory.uniqueIdentifier)")
+        print(homeManager.homes)
+        if let home = homeManager.primaryHome {
+            print("found a home")
+            for room in home.rooms {
+                print("found a room")
+                for accessory in room.accessories {
+                    print("Name : \(accessory.name), UUID \(accessory.uniqueIdentifier)")
+                }
             }
+        }else{
+            self.homeManager.addHome(withName: "Porter Ave", completionHandler: { (home, error) in
+                if error != nil {
+                    print("Something went wrong when attempting to create our home. \(error?.localizedDescription)")
+                } else {
+                    self.homeManager.updatePrimaryHome(self.homeManager.homes[0], completionHandler: {(error) in
+                        if error != nil {
+                            print("Update primary home Error \(error?.localizedDescription)")
+                        } else
+                            if let discoveredHome = home {
+                            // Add a new room to our home
+                                discoveredHome.addRoom(withName: "Office", completionHandler: { (room, error) in
+                                    if error != nil {
+                                        print("Something went wrong when attempting to create our room. \(error?.localizedDescription)")
+                                    }})
+                                self.homeManager.updatePrimaryHome(discoveredHome, completionHandler: { (error) in
+                                    if error != nil {
+                                        print("Something went wrong when attempting to make this home our primary home. \(error?.localizedDescription)")
+                            }
+                                })
+                                print(self.homeManager.homes)
+                                self.browser.startSearchingForNewAccessories()
+                                Timer.scheduledTimer(timeInterval: 10.0, target: self, selector: #selector(ERMainViewController.stopSearching), userInfo: nil, repeats: false)
+                        }
+                    })
+                }
+            })
+            
+        }
+        
+    }
+    
+    func manageAccessories(){
+        let primaryHome = homeManager.primaryHome!
+        for accessory in accessories {
+            primaryHome.addAccessory(accessory, completionHandler: { error -> Void in
+                if error != nil {
+                    print("Error whilst trying to add accessory \(error?.localizedDescription)")
+                }
+            })
+            primaryHome.assignAccessory(accessory, to: primaryHome.rooms[0], completionHandler: { error -> Void in
+                if error != nil {
+                    print("error whilst trying to assign accessory \(error?.localizedDescription)")
+                }
+            })
         }
     }
 }

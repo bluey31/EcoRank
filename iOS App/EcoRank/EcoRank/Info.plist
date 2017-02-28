@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSHomeKitUsageDescription</key>
+	<string>EcoRank needs access to HomeKit to monitor your green living! (We will not make use of cameras/ manipulate your accessories)</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>EcoRank needs to use your location so we can put you on a global leaderboard against other users.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
