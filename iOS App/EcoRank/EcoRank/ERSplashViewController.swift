@@ -42,7 +42,11 @@ class ERSplashViewController: UIViewController, UIGestureRecognizerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // Successful Login Notification
+        NotificationCenter.default.addObserver(self, selector: #selector(successfulLogin(notification:)), name: NSNotification.Name(rawValue: "successfulLogin"), object: nil)
+        
         setupView()
+        tryLoggingInWithAuthToken()
     }
 
     func setupView(){
@@ -63,6 +67,14 @@ class ERSplashViewController: UIViewController, UIGestureRecognizerDelegate {
         signupUsernameTextField.layer.sublayerTransform = CATransform3DMakeTranslation(8, 0, 0)
         signupPasswordTextField.layer.sublayerTransform = CATransform3DMakeTranslation(8, 0, 0)
         createNewAccountButton.isEnabled = false
+    }
+    
+    func tryLoggingInWithAuthToken(){
+        if let userId = UserDefaults.standard.object(forKey: "userId") as! Int!{
+            if let token = UserDefaults.standard.object(forKey: "authToken") as! String!{
+                ERLoginSignUp.loginWith(userId: userId, authToken: token, viewController: self)
+            }
+        }
     }
     
     //MARK: Location Handler
@@ -146,7 +158,7 @@ class ERSplashViewController: UIViewController, UIGestureRecognizerDelegate {
         }
     }
     
-        // MARK: HTTP Requests
+    // MARK: HTTP Requests
 
     @IBAction func userConfirmedCreateNewAccount(_ sender: Any) {
         let username = signupUsernameTextField.text!
@@ -156,7 +168,7 @@ class ERSplashViewController: UIViewController, UIGestureRecognizerDelegate {
     }
 
     
-    func successfulLogin(response: String){
+    func successfulLogin(notification: NSNotification){
         DispatchQueue.main.async {
             let localUser = ERUser.init(id: 1, username: "brendon", longitude: 0.444533432, latitude: -0.32542352, houseClassifier: 2)
             print("\(localUser.username) logged in")

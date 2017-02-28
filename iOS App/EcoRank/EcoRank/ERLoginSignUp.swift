@@ -12,11 +12,32 @@ import UIKit
 class ERLoginSignUp {
     
     class func loginWith(username: String, password: String, viewController: UIViewController){
-        var request = URLRequest(url: URL(string: "https://ecorank.xsanda.me/login")!)
-        request.httpMethod = "POST"
+        let requestURL = "https://ecorank.xsanda.me/login"
         let postString = "username=\(username)&password=\(password)"
-        request.httpBody = postString.data(using: .utf8)
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+        triggerPOSTRequestWith(reqUrl: requestURL, params: postString, viewController: viewController)
+    }
+    
+    class func signUpWith(username: String, password:String, long: Double, lat: Double, viewController: UIViewController){
+        let requestURL = "https://ecorank.xsanda.me/users"
+        let postString = "username=\(username)&password=\(password)&long=\(long)&lat=\(lat)"
+        triggerPOSTRequestWith(reqUrl: requestURL, params: postString, viewController: viewController)
+    }
+    
+    class func loginWith(userId: Int, authToken: String, viewController: UIViewController){
+        let requestURL = "https://ecorank.xsanda.me/test"
+        triggerGETRequestWith(reqUrl: requestURL, userId: userId, authToken: authToken, viewController: viewController)
+    }
+    
+    class func triggerGETRequestWith(reqUrl: String, userId: Int, authToken: String, viewController: UIViewController){
+        var request = URLRequest(url: URL(string: reqUrl)!)
+        request.httpMethod = "GET"
+        request.setValue("Bearer \(authToken)", forHTTPHeaderField: "Authorization")
+
+        print("Trying to Auto-Login..")
+        
+        let session = URLSession.shared
+        
+        let task = session.dataTask(with: request as URLRequest) { (data, response, error) -> Void in
             // Check for fundamental networking error
             guard let data = data, error == nil else {
                 print("error=\(error)")
@@ -31,7 +52,7 @@ class ERLoginSignUp {
                 let responseString = String(data: data, encoding: .utf8)?.replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
                 print("response (bad response) = \(responseString!))")
                 
-                let responseArr: [String : Any] = ERUtilities.dataToJSON(data: data) as! [String : Any]
+                let responseArr: [String: Any] = ERUtilities.dataToJSON(data: data) as! [String: Any]
                 print(responseArr["errorCode"] as! Int)
                 
                 ERUtilities.displayErrorToUserWith(userCode: responseArr["errorCode"] as! Int, viewController: viewController)
@@ -39,30 +60,22 @@ class ERLoginSignUp {
                 return
             }
             
-            //let trialResult = self.dataToJSON(data: data)
-            //print("JSON:" + "\(trialResult)")
+            let responseString = String(data: data, encoding: .utf8)?.replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
+            print("Auto-Login Status: \(responseString!)")
             
-            let responseString = String(data: data, encoding: .utf8)
-            print("response (good response) = \(responseString!.replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)))")
-            
-            //if responseString == "hi" {
-            // Load Main screen
-            print("Loading main screen")
-            
-            // NSNOTIFICATION!
-            //self.successfulLogin(response: responseString!)
-            
-            //}
+            if responseString == "true"{
+                print("Loading main screen")
+                NotificationCenter.default.post(name:Notification.Name(rawValue:"successfulLogin"), object: nil, userInfo: nil)
+            }
         }
         task.resume()
     }
     
-    class func signUpWith(username: String, password:String, long: Double, lat: Double, viewController: UIViewController){
-        var request = URLRequest(url: URL(string: "https://ecorank.xsanda.me/users")!)
+    class func triggerPOSTRequestWith(reqUrl: String, params: String, viewController: UIViewController){
+        var request = URLRequest(url: URL(string: reqUrl)!)
         request.httpMethod = "POST"
         
-        let postString = "username=\(username)&password=\(password)&long=\(long)&lat=\(lat)"
-        request.httpBody = postString.data(using: .utf8)
+        request.httpBody = params.data(using: .utf8)
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             // Check for fundamental networking error
             guard let data = data, error == nil else {
@@ -78,7 +91,7 @@ class ERLoginSignUp {
                 let responseString = String(data: data, encoding: .utf8)?.replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
                 print("response (bad response) = \(responseString!))")
                 
-                let responseArr: [String : Any] = ERUtilities.dataToJSON(data: data) as! [String : Any]
+                let responseArr: [String: Any] = ERUtilities.dataToJSON(data: data) as! [String: Any]
                 print(responseArr["errorCode"] as! Int)
                 
                 ERUtilities.displayErrorToUserWith(userCode: responseArr["errorCode"] as! Int, viewController: viewController)
@@ -86,13 +99,24 @@ class ERLoginSignUp {
                 return
             }
             
-            let responseString = String(data: data, encoding: .utf8)
-            print("responseString = \(responseString!.replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)))")
+            let responseString = String(data: data, encoding: .utf8)?.replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
+            print("response (good response) = \(responseString!)")
+            
+            // We know we have a successful login at this point so can extract the auth token
+            extractAndStoreAuthTokenAndUserIdFrom(responseData: data)
             
             print("Loading main screen")
-            //self.successfulLogin(response: responseString!)
-            
+            NotificationCenter.default.post(name:Notification.Name(rawValue:"successfulLogin"), object: nil, userInfo: ["response":responseString!])
         }
         task.resume()
+    }
+    
+    // When we have a successful login we are passed the auth token and we have to extract and save it
+    class func extractAndStoreAuthTokenAndUserIdFrom(responseData: Data){
+        let responseArr: [String : Any] = ERUtilities.dataToJSON(data: responseData) as! [String : Any]
+        print("Auth Token: \(responseArr["token"]!)")
+        UserDefaults.standard.set(responseArr["token"]!, forKey: "authToken")
+        print("User ID: \(responseArr["userId"]!)")
+        UserDefaults.standard.set(responseArr["userId"]!, forKey: "userId")
     }
 }
