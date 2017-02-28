@@ -45,12 +45,18 @@ class ERMainViewController: UIViewController, HMHomeManagerDelegate, HMAccessory
     func stopSearching(){
         print("stopping searchign for acc")
         browser.stopSearchingForNewAccessories()
-        print(accessories)
-        manageAccessories()
+        print(homeManager.primaryHome!.accessories)
     }
     
     func accessoryBrowser(_ browser: HMAccessoryBrowser, didFindNewAccessory accessory: HMAccessory) {
-        accessories.append(accessory)
+        let primaryHome = homeManager.primaryHome!
+        print("found new accessor: \(accessory)")
+        primaryHome.addAccessory(accessory, completionHandler: { error -> Void in
+            if error != nil {
+                print("Error whilst trying to add accessory \(error.debugDescription)")
+            }
+        })
+        print(primaryHome.accessories)
     }
     
     func accessoryBrowser(_ browser: HMAccessoryBrowser, didRemoveNewAccessory accessory: HMAccessory) {
@@ -90,14 +96,11 @@ class ERMainViewController: UIViewController, HMHomeManagerDelegate, HMAccessory
     }
     
     func testHomeKit(){
-        print(homeManager.homes)
         if let home = homeManager.primaryHome {
-            print("found a home")
-            for room in home.rooms {
-                print("found a room")
-                for accessory in room.accessories {
-                    print("Name : \(accessory.name), UUID \(accessory.uniqueIdentifier)")
-                }
+            print("testing home and \(home.accessories.count)")
+            
+            for acc in home.accessories {
+                print("Name : \(acc.name), UUID \(acc.uniqueIdentifier)")
             }
         }else{
             self.homeManager.addHome(withName: "Porter Ave", completionHandler: { (home, error) in
@@ -107,41 +110,12 @@ class ERMainViewController: UIViewController, HMHomeManagerDelegate, HMAccessory
                     self.homeManager.updatePrimaryHome(self.homeManager.homes[0], completionHandler: {(error) in
                         if error != nil {
                             print("Update primary home Error \(error?.localizedDescription)")
-                        } else
-                            if let discoveredHome = home {
-                            // Add a new room to our home
-                                discoveredHome.addRoom(withName: "Office", completionHandler: { (room, error) in
-                                    if error != nil {
-                                        print("Something went wrong when attempting to create our room. \(error?.localizedDescription)")
-                                    }})
-                                self.homeManager.updatePrimaryHome(discoveredHome, completionHandler: { (error) in
-                                    if error != nil {
-                                        print("Something went wrong when attempting to make this home our primary home. \(error?.localizedDescription)")
-                            }
-                                })
-                                print(self.homeManager.homes)
-                                self.browser.startSearchingForNewAccessories()
-                                Timer.scheduledTimer(timeInterval: 10.0, target: self, selector: #selector(ERMainViewController.stopSearching), userInfo: nil, repeats: false)
+                        } else {
+                            print(self.homeManager.homes)
+                            self.browser.startSearchingForNewAccessories()
+                            Timer.scheduledTimer(timeInterval: 10.0, target: self, selector: #selector(ERMainViewController.stopSearching), userInfo: nil, repeats: false)
                         }
                     })
-                }
-            })
-            
-        }
-        
-    }
-    
-    func manageAccessories(){
-        let primaryHome = homeManager.primaryHome!
-        for accessory in accessories {
-            primaryHome.addAccessory(accessory, completionHandler: { error -> Void in
-                if error != nil {
-                    print("Error whilst trying to add accessory \(error?.localizedDescription)")
-                }
-            })
-            primaryHome.assignAccessory(accessory, to: primaryHome.rooms[0], completionHandler: { error -> Void in
-                if error != nil {
-                    print("error whilst trying to assign accessory \(error?.localizedDescription)")
                 }
             })
         }
