@@ -1,0 +1,37 @@
+RewriteEngine On
+
+RewriteRule ^geo.json$ /geojson.php [L]
+
+RewriteCond %{THE_REQUEST} POST
+RewriteRule ^login$ /login.php [L]
+
+RewriteCond %{THE_REQUEST} POST
+RewriteRule ^logout$ /logout.php [L]
+
+RewriteCond %{THE_REQUEST} POST
+RewriteRule ^users/(\d+)/consumption$ /logConsumption.php?id=$1 [L]
+
+RewriteCond %{THE_REQUEST} GET
+RewriteRule ^users/(\d+)/consumption$ /getConsumption.php?id=$1 [L,QSA]
+
+RewriteCond %{THE_REQUEST} GET
+RewriteRule ^devices/(.+)$ /getDevice.php?id=$1 [L]
+
+RewriteCond %{THE_REQUEST} GET
+RewriteRule ^users$ /users.php [L]
+
+RewriteCond %{THE_REQUEST} GET
+RewriteRule ^users/all$ /users_all.php [L]
+
+RewriteCond %{THE_REQUEST} GET
+RewriteRule ^test$ /test.php [L]
+
+RewriteCond %{THE_REQUEST} GET
+RewriteRule ^users/(\d+)$ /getUser.php?id=$1 [L]
+
+RewriteCond %{THE_REQUEST} POST
+RewriteRule ^users$ /register.php [L]
+
+RewriteCond %{ENV:REDIRECT_STATUS} ^$
+RewriteRule php - [F,L]
+RewriteRule db - [F,L]
