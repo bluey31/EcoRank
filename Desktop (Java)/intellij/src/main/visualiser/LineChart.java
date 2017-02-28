@@ -79,7 +79,7 @@ public class LineChart extends Visualiser {
 
     @Override
     public void update() {
-        time += 0.002f;
+        time += 0.01f;
         if(time >= 1f){
             locateNewUser();
             time = 0f;
@@ -94,7 +94,21 @@ public class LineChart extends Visualiser {
     @Override
     public void render() {
 
-        glColor3f(0, 0, 0);
+        /*
+        g.setColor(new Color(76, 147, 227));
+        g.fillRect(0, 0, 800/3, 600);
+        g.setColor(new Color(167, 221, 100));
+        g.fillRect(800/3, 0, 800/3, 600);
+        g.setColor(new Color(238, 96, 85));
+        g.fillRect(1600/3, 0, 800/3, 600);
+        */
+        //0.298, 0.5765, 0.89
+        //0.655, 0.867, 0.3922
+        //0.933, 0.3765, 0.333
+        //g.drawString("Wagwarnen", 300, 200);
+
+
+        glColor3f(0.298f, 0.5765f, 0.89f);
         glBegin(GL_QUADS);
         glVertex2f(-2, -2);
         glVertex2f(2, -2);
@@ -103,7 +117,32 @@ public class LineChart extends Visualiser {
         glEnd();
 
 
-        glColor3f(0.4f, 0.4f, 0.4f);
+        glColor3f(0.933f, 0.3765f, 0.33f);
+
+        glBegin(GL_QUADS);
+        for(int i = 0; i < elements.size(); i++){
+            if(i == elements.size() - 1){
+                continue;
+            }
+
+            glColor3f(0.933f, 0.3765f, 0.33f);
+            LineElement a = elements.get(i);
+            LineElement b = elements.get(i + 1);
+            glVertex2f(a.xPos, a.yPos);
+            glVertex2f(b.xPos, b.yPos);
+            glVertex2f(b.xPos, -3);
+            glVertex2f(a.xPos, -3);
+
+            glColor3f(0.98f, 0.45f, 0.5f);
+            glVertex2f(a.xPos, a.yPos - 0.1f);
+            glVertex2f(b.xPos, b.yPos - 0.04f);
+            glVertex2f(b.xPos, -3);
+            glVertex2f(a.xPos, -3);
+        }
+        glEnd();
+
+        glColor3f(0.98f, 0.48f, 0.6f);
+
         glLineWidth(2f);
         glBegin(GL_LINE_STRIP);
         for(LineElement element : elements){

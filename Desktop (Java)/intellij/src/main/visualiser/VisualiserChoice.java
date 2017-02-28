@@ -50,7 +50,7 @@ public class VisualiserChoice extends JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jButton2.setText("View Heatmap");
+        jButton2.setText("View Leaderboard");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -94,6 +94,7 @@ public class VisualiserChoice extends JFrame {
     }// </editor-fold>
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {
+        /*
         if(heatmap.isOpen()){
             return;
         }
@@ -101,6 +102,13 @@ public class VisualiserChoice extends JFrame {
             lineChart.close();
         }
         heatmap.open();
+        */
+        Leaderboard board = new Leaderboard();
+        board.setVisible(true);
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        board.setLocation((int)dim.getWidth()/2 - board.getWidth()/2, (int)dim.getHeight()/2 - board.getHeight()/2);
+
+
     }
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {

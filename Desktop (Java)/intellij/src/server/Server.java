@@ -217,6 +217,9 @@ public class Server {
         String historicalData = getJSON("/" + user.getUserID() + "/consumption");
         try {
 
+            String username = seekTo(accountData, "username\":");
+            username = username.substring(1, username.length()-1);
+
             String longitude = seekTo(accountData, "longitude\":");
             String latitude = seekTo(accountData, "latitude\":");
 
@@ -226,6 +229,7 @@ public class Server {
             }else{
                 user.setLongitude(Double.parseDouble(seekTo(accountData, "longitude\":")));
                 user.setLongitude(Double.parseDouble(seekTo(accountData, "latitude\":")));
+                user.setUsername(username);
                 user.setCorrupt(false);
             }
         }catch(Exception e){
