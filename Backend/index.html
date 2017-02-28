@@ -2,10 +2,24 @@
 <html>
 <head>
     <style>
+        @font-face {
+            font-family: 'Monster'; /*a name to be used later*/
+            src: url('Montserrat-Regular.ttf'); /*URL to font*/
+        }
         /* Always set the map height explicitly to define the size of the div
          * element that contains the map. */
         #map {
             height: 100%;
+        }
+        #banner{
+            color: white;
+            font-family: Monster;
+            display:block;
+            position: absolute;
+            max-width: 20%;
+            max-height: 50%;
+            bottom: 10px;
+            left: 10px;
         }
         /* Optional: Makes the sample page fill the window. */
         html, body {
@@ -17,48 +31,67 @@
 </head>
 <body>
 <div id="map"></div>
+<div id="banner"><img src="banner.png"> <p>Heatmap of user activity over past 24 hours</p></div>
 <script>
     var map;
     function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 2,
-            center: {lat: -33.865427, lng: 151.196123},
-            mapTypeId: 'terrain'
+            zoom: 6,
+            center: {lat: 53, lng: -1},
+            mapTypeId: 'terrain',
+            styles: [
+                {
+                    featureType: 'road',
+                    elementType: 'labels',
+                    stylers: [{visibility: 'off'}]
+                },
+            ]
         });
-
-        // Create a <script> tag and set the USGS URL as the source.
+        
         var script = document.createElement('script');
 
-        // This example uses a local copy of the GeoJSON stored at
-        // http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.geojsonp
-        script.src = 'https://developers.google.com/maps/documentation/javascript/examples/json/earthquake_GeoJSONP.js';
+        script.src = 'https://ecorank.xsanda.me/geo.json';
         document.getElementsByTagName('head')[0].appendChild(script);
 
-        map.data.setStyle(function(feature) {
-            var magnitude = feature.getProperty('mag');
-            return {
-                icon: getCircle(magnitude)
-            };
-        });
     }
+//
+//    window.eqfeed_callback = function(results) {
+//        for (var i = 0; i < results.features.length; i++) {
+//            var coords = results.features[i].geometry.coordinates;
+//            var latLng = new google.maps.LatLng(coords[1],coords[0]);
+//            var marker = new google.maps.Marker({
+//                position: latLng,
+//                map: map
+//            });
+//        }
+//        marker.addListener('click', function() {
+//            debugger;
+//        });
+//    }
 
-    function getCircle(magnitude) {
-        return {
-            path: google.maps.SymbolPath.CIRCLE,
-            fillColor: 'red',
-            fillOpacity: .2,
-            scale: Math.pow(2, magnitude) / 2,
-            strokeColor: 'white',
-            strokeWeight: .5
-        };
-    }
 
     function eqfeed_callback(results) {
-        map.data.addGeoJson(results);
+        var heatmapData = [];
+        for (var i = 0; i < results.features.length; i++) {
+            var coords = results.features[i].geometry.coordinates;
+            var latLng = new google.maps.LatLng(coords[1], coords[0]);
+            var magnitude = results.features[i].properties.consumption;
+            var weightedLoc = {
+                location: latLng,
+                weight: Math.pow(2, magnitude/3000)
+            };
+            heatmapData.push(weightedLoc);
+        }
+        var heatmap = new google.maps.visualization.HeatmapLayer({
+            data: heatmapData,
+            dissipating: false,
+            radius: 0.5,
+            map: map
+        });
     }
 </script>
 <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDCh5ShN7AM6thGU1DcLQ4t-YdMBdk_HVM&callback=initMap">
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDCh5ShN7AM6thGU1DcLQ4t-YdMBdk_HVM&libraries=visualization&callback=initMap">
 </script>
 </body>
 </html>
