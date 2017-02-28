@@ -21,6 +21,9 @@ RewriteCond %{THE_REQUEST} GET
 RewriteRule ^users$ /users.php [L]
 
 RewriteCond %{THE_REQUEST} GET
+RewriteRule ^users/all$ /users_all.php [L]
+
+RewriteCond %{THE_REQUEST} GET
 RewriteRule ^test$ /test.php [L]
 
 RewriteCond %{THE_REQUEST} GET
