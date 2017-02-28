@@ -40,24 +40,25 @@ class ERMainViewController: UIViewController, HMHomeManagerDelegate, HMAccessory
     }
     
     //MARK: Accessory delegate methods
-    
-    func stopSearching(){
-        browser.stopSearchingForNewAccessories()
+
+    func accessoryBrowser(_ browser: HMAccessoryBrowser, didFindNewAccessory accessory: HMAccessory) {
+        self.accessories.append(accessory)
     }
     
-    func accessoryBrowser(_ browser: HMAccessoryBrowser, didFindNewAccessory accessory: HMAccessory) {
+    func processAccessories(){
         let primaryHome = homeManager.primaryHome!
-        print("found new accessor: \(accessory)")
-        accNumber += 1
-        primaryHome.addAccessory(accessory, completionHandler: { error -> Void in
-            if error != nil {
-                print("Error whilst trying to add accessory \(error.debugDescription)")
-            }
-            self.accessories.append(accessory)
-            //if self.accNumber == self.accessories.count {
-              //  self.addBoxes()
-            //}
-        })
+        for accessory in accessories {
+            primaryHome.addAccessory(accessory, completionHandler: { error -> Void in
+                if error != nil {
+                    print("Error whilst trying to add accessory \(error.debugDescription)")
+                }
+                self.accessories.remove(at: 0)
+                if self.accessories.count != 0 {
+                    self.processAccessories()
+                }
+            })
+        }
+
     }
     
     func accessoryBrowser(_ browser: HMAccessoryBrowser, didRemoveNewAccessory accessory: HMAccessory) {
@@ -75,8 +76,11 @@ class ERMainViewController: UIViewController, HMHomeManagerDelegate, HMAccessory
     }
     
     func addBoxes(){
+        for subview in horizontalDeviceModuleContainerView.subviews {
+            horizontalDeviceModuleContainerView.willRemoveSubview(subview)
+        }
         let gap = 20
-        let deviceArraySize = accessories.count
+        let deviceArraySize = homeManager.primaryHome!.accessories.count
         
         // Width of module = 200, width of gap = 20 * the amount of devices
         let widthOfContainer = 220*deviceArraySize
@@ -86,7 +90,7 @@ class ERMainViewController: UIViewController, HMHomeManagerDelegate, HMAccessory
         for j in 0...deviceArraySize-1 {
             // 16 is our offset
             let newX = (j * 200) + (j * gap) + 16
-            let newDevModule: ERDeviceModule = ERDeviceModule.instanceOfNib(deviceName: accessories[j].name, energyConsumptionPerHour: 69.69)
+            let newDevModule: ERDeviceModule = ERDeviceModule.instanceOfNib(deviceName: homeManager.primaryHome!.accessories[j].name, energyConsumptionPerHour: 69.69)
             newDevModule.frame = CGRect(x: newX, y: 0, width: 200, height: 144)
             horizontalDeviceModuleContainerView.addSubview(newDevModule)
         }
@@ -119,7 +123,7 @@ class ERMainViewController: UIViewController, HMHomeManagerDelegate, HMAccessory
                         } else {
                             print(self.homeManager.homes)
                             self.browser.startSearchingForNewAccessories()
-                            Timer.scheduledTimer(timeInterval: 10.0, target: self, selector: #selector(ERMainViewController.stopSearching), userInfo: nil, repeats: false)
+                            Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(self.processAccessories), userInfo: nil, repeats: false)
                         }
                     })
                 }
