@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        @font-face {
+            font-family: 'Monster'; /*a name to be used later*/
+            src: url('Montserrat-Regular.ttf'); /*URL to font*/
+        }
+        /* Always set the map height explicitly to define the size of the div
+         * element that contains the map. */
+        #map {
+            height: 100%;
+        }
+        #banner {
+            color: white;
+            font-family: Monster;
+            font-size: 1.5vh;
+            display:block;
+            position: absolute;
+            max-width: 30%;
+            /*max-height: 50%;*/
+            bottom: 10px;
+            left: 10px;
+        }
+        @media all and (orientation: portrait) {
+            #banner {
+                max-width: 50%;
+                font-size: 2vw;
+            }
+        }
+        /* Optional: Makes the sample page fill the window. */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    </head>
+</head>
+<body>
+<div id="map"></div>
+<div id="banner"><img id="logo" src="banner.png"> <h3>Heatmap of user activity over past 24 hours</h3>
+    <div id="showhide"><p>EcoRank is a platform built for <a href="http://www.apple.com/uk/ios/home/">HomeKit</a> that evaluates the efficiency of your smart home and compares it to others.
+    It was developed by a team of 5 first year Computer Science students during the University of Bristol 2017 Hacking For The Environment Hackathon. </p>
+    <p>The project consists of a SQLite backend built in PHP, an accompanying iPhone app, as well as an administration terminal built in Java.
+    We're currently up for acquisition for the reasonable price of &pound;1 million</p>
+    </div>
+</div>
+<script>
+    $(document).ready(function() {
+        $('#showhide').slideToggle("very slow");
+        $('#banner').click(function() {
+            $('#showhide').slideToggle("fast");
+        });
+    });
+</script>
+<script>
+    var map;
+    function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 6,
+            center: {lat: 53, lng: -1},
+            mapTypeId: 'terrain',
+            mapTypeControlOptions: {
+                mapTypeIds:[],
+            },
+            styles: [
+                {
+                    featureType: 'road',
+                    elementType: 'labels',
+                    stylers: [{visibility: 'off'}]
+                },
+            ]
+        });
+        
+        var script = document.createElement('script');
+
+        script.src = 'https://ecorank.xsanda.me/geo.json';
+        document.getElementsByTagName('head')[0].appendChild(script);
+
+    }
+//
+//    window.eqfeed_callback = function(results) {
+//        for (var i = 0; i < results.features.length; i++) {
+//            var coords = results.features[i].geometry.coordinates;
+//            var latLng = new google.maps.LatLng(coords[1],coords[0]);
+//            var marker = new google.maps.Marker({
+//                position: latLng,
+//                map: map
+//            });
+//        }
+//        marker.addListener('click', function() {
+//            debugger;
+//        });
+//    }
+
+
+    function eqfeed_callback(results) {
+        var heatmapData = [];
+        for (var i = 0; i < results.features.length; i++) {
+            var coords = results.features[i].geometry.coordinates;
+            var latLng = new google.maps.LatLng(coords[1], coords[0]);
+            var magnitude = results.features[i].properties.consumption;
+            var weightedLoc = {
+                location: latLng,
+                weight: Math.pow(2, magnitude/3000)
+            };
+            heatmapData.push(weightedLoc);
+        }
+        var heatmap = new google.maps.visualization.HeatmapLayer({
+            data: heatmapData,
+            dissipating: false,
+            radius: 0.5,
+            map: map
+        });
+    }
+</script>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDCh5ShN7AM6thGU1DcLQ4t-YdMBdk_HVM&libraries=visualization&callback=initMap">
+</script>
+</body>
+</html>

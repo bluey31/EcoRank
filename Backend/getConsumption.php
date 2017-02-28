@@ -6,7 +6,7 @@
  * Time: 00:51
  */
 require_once "functions.php";
-$day = json_decode($_GET["day"]);
+$day = json_decode(@$_GET["day"]);
 $id = $_GET["id"];
 
 if(!is_numeric($id)){

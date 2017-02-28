@@ -13,6 +13,6 @@ if($token === NULL){
 }
 run_db(function($db) use ($token) {
     $userId = sqlquery($db,"SELECT userId FROM Sessions WHERE  token = :token", ["token" => $token],SQL_SINGLE);
-    if($userId === false) return;
+    if($userId === null) return;
     sqlstmt($db,"DELETE FROM Sessions WHERE token = :token",["token"=>$token]);
 });
