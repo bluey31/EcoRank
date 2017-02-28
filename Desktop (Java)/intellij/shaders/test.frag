@@ -12,27 +12,27 @@ void main(){
     float y = texCoord.y * zoom + yZoom;
 
     float amount = 100.0;
-    float stop = 0;
+    float stop = 0.0;
 
     float xPos = x;
     float yPos = y;
 
-    for(float i = 0; i < amount; i++){
+    for(float i = 0.0; i < amount; i++){
         stop = i;
-        if(xPos*xPos + yPos*yPos > 4){
+        if(xPos*xPos + yPos*yPos > 4.0){
             break;
         }
 
         float xTemp = xPos*xPos - yPos*yPos + x;
-        float yTemp = 2*xPos*yPos + y;
+        float yTemp = 2.0 * xPos * yPos + y;
         xPos = xTemp;
         yPos = yTemp;
     }
 
 
-    float red = mod(stop, mod(time, 12)) / mod(time, 12);
-    float green = mod(stop, mod(time + 23, 40)) / mod(time + 23, 40);
-    float blue = mod(stop, mod(time + 2, 7)) / mod(time + 2, 7);
+    float red = mod(stop, mod(time, 12.0)) / mod(time, 12.0);
+    float green = mod(stop, mod(time + 23.0, 40.0)) / mod(time + 23.0, 40.0);
+    float blue = mod(stop, mod(time + 2.0, 7.0)) / mod(time + 2.0, 7.0);
 
     gl_FragColor = vec4(red, green, blue, 1.0);
 

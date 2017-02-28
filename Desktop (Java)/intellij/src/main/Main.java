@@ -1,6 +1,5 @@
 package main;
 
-import login.LoginWindow;
 import main.visualiser.Heatmap;
 import main.visualiser.Visualiser;
 import main.visualiser.VisualiserChoice;
@@ -24,7 +23,8 @@ public class Main {
             System.exit(0);
         }
 
-        LoginWindow.createLoginWindow();
+        //LoginWindow.createLoginWindow();
+        VisualiserChoice.openChoices();
 
         //VisualiserWindow window = new VisualiserWindow(new Heatmap());
         //window.open();
@@ -49,7 +49,7 @@ public class Main {
     public static void login(){
 
         System.out.println("Server Access: " + access);
-        VisualiserChoice.openChoices(access);
+        VisualiserChoice.openChoices();
 
 
     }
