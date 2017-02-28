@@ -9,23 +9,43 @@
 import UIKit
 import HomeKit
 
-class ERMainViewController: UIViewController, HMHomeManagerDelegate, HMAccessoryBrowserDelegate {
+class ERMainViewController: UIViewController, HMHomeManagerDelegate, HMAccessoryBrowserDelegate, HMAccessoryDelegate, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var cloudTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var scrollContainerView: UIView!
+    @IBOutlet weak var monitorMyLivingSwitch: UISwitch!
     
     @IBOutlet weak var horizontalDeviceModuleParentView: UIView!
     @IBOutlet weak var horizontalDeviceModuleScrollView: UIScrollView!
     @IBOutlet weak var horizontalDeviceModuleContainerView: UIView!
     @IBOutlet weak var horizontalDeviceModuleWidth: NSLayoutConstraint!
+    @IBOutlet weak var leaderBoardTableView: UITableView!
+    
     let homeManager = HMHomeManager()
     let browser = HMAccessoryBrowser()
     var accessories = [HMAccessory]()
     var accNumber = 0
     
+    var backgroundTask: UIBackgroundTaskIdentifier = UIBackgroundTaskInvalid
+    var updateTimer: Timer?
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Add Background task reinstater
+        NotificationCenter.default.addObserver(self, selector: #selector(reinstateBackgroundTask), name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
+        
+        // Fetched all users for leaderboard
+        NotificationCenter.default.addObserver(self, selector: #selector(updateLeaderBoard), name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         // Beginning value for constraint so the cloud is off the screen
         cloudTopConstraint.constant = -148
+    
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -40,25 +60,19 @@ class ERMainViewController: UIViewController, HMHomeManagerDelegate, HMAccessory
     }
     
     //MARK: Accessory delegate methods
-
+    //TODO
     func accessoryBrowser(_ browser: HMAccessoryBrowser, didFindNewAccessory accessory: HMAccessory) {
         self.accessories.append(accessory)
-    }
-    
-    func processAccessories(){
         let primaryHome = homeManager.primaryHome!
         for accessory in accessories {
+            accessory.delegate = self
             primaryHome.addAccessory(accessory, completionHandler: { error -> Void in
                 if error != nil {
                     print("Error whilst trying to add accessory \(error.debugDescription)")
                 }
-                self.accessories.remove(at: 0)
-                if self.accessories.count != 0 {
-                    self.processAccessories()
-                }
+                self.browser.startSearchingForNewAccessories()
             })
         }
-
     }
     
     func accessoryBrowser(_ browser: HMAccessoryBrowser, didRemoveNewAccessory accessory: HMAccessory) {
@@ -76,8 +90,9 @@ class ERMainViewController: UIViewController, HMHomeManagerDelegate, HMAccessory
     }
     
     func addBoxes(){
+        self.browser.startSearchingForNewAccessories()
         for subview in horizontalDeviceModuleContainerView.subviews {
-            horizontalDeviceModuleContainerView.willRemoveSubview(subview)
+            subview.removeFromSuperview()
         }
         let gap = 20
         let deviceArraySize = homeManager.primaryHome!.accessories.count
@@ -102,16 +117,9 @@ class ERMainViewController: UIViewController, HMHomeManagerDelegate, HMAccessory
     
     func testHomeKit(){
         if let home = homeManager.primaryHome {
-            print("testing home and \(home.accessories.count)")
             accessories = home.accessories
+            self.browser.startSearchingForNewAccessories()
             addBoxes()
-            
-            let lightServices = home.servicesWithTypes([HMServiceTypeLightbulb])! as [HMService]
-            for service in lightServices {
-                let on = service.characteristics[1].value!
-                let intensity = service.characteristics[2].value!
-                print("This light is: \(on) at level \(intensity)%")
-            }
         }else{
             self.homeManager.addHome(withName: "UserHome", completionHandler: { (home, error) in
                 if error != nil {
@@ -123,11 +131,159 @@ class ERMainViewController: UIViewController, HMHomeManagerDelegate, HMAccessory
                         } else {
                             print(self.homeManager.homes)
                             self.browser.startSearchingForNewAccessories()
-                            Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(self.processAccessories), userInfo: nil, repeats: false)
+                            //Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(self.processAccessories), userInfo: nil, repeats: false)
                         }
                     })
                 }
             })
         }
+    }
+    
+    func accessoryDidUpdateServices(_ accessory: HMAccessory) {
+        print("think something changed?")
+    }
+    
+    func accessory(_ accessory: HMAccessory, didUpdateAssociatedServiceTypeFor service: HMService) {
+        print("updated something?")
+    }
+
+    func accessoryDidUpdateReachability(_ accessory: HMAccessory) {
+        if (accessory.isReachable == true) {
+            // Can communicate with the accessory
+            print("Accessory is reachable")
+        } else {
+            // The accessory is out of range, turned off, etc
+            print("Accessory is not reachable")
+        }
+    }
+    
+    
+    @IBAction func monitorMyLivingSwitchChanged(_ sender: Any) {
+        // Turned on
+        if monitorMyLivingSwitch.isOn {
+            updateTimer = Timer.scheduledTimer(timeInterval: 60, target: self, selector: #selector(fetchStateOfAccessories), userInfo: nil, repeats: true)
+            // Register background task
+            registerBackgroundTask()
+            
+        }else{ // turned off
+            updateTimer?.invalidate()
+            updateTimer = nil
+            if backgroundTask != UIBackgroundTaskInvalid {
+                endBackgroundTask()
+            }
+        }
+    }
+    
+    func accessory(_ accessory: HMAccessory, service: HMService, didUpdateValueFor characteristic: HMCharacteristic) {
+        print("\(accessory.uniqueIdentifier) + \(characteristic.value)")
+    }
+    
+    
+    func fetchStateOfAccessories(){
+        let lightServices = homeManager.primaryHome!.servicesWithTypes([HMServiceTypeLightbulb])! as [HMService]
+        for service in lightServices {
+            for char in service.characteristics {
+                if !char.properties.contains(HMCharacteristicPropertySupportsEventNotification) {
+                    continue
+                } else {
+                    char.enableNotification(true, completionHandler: {(error) -> Void in
+                        if error != nil {
+                            print("Enable notifcation error \(error.debugDescription)")
+                        }
+                    })
+                }
+            }
+            let on = service.characteristics[1].value!
+            let intensity = service.characteristics[2].value!
+            let id = service.characteristics[0].value!
+            print("This light is: \(on) at level \(intensity)%")
+            print(id)
+            let bulbDataAnalyser = ERLightDataAnalyzer.init(intensity: intensity as! Int, onState: on as! Bool, id: id as! String)
+            bulbDataAnalyser.incrementEnergyUsedForDay()
+            //print(bulbDataAnalyser.generateData(obj: bulbDataAnalyser))
+            
+        }
+        
+        //Iterates through all thermostats
+        let thermostatServices = homeManager.primaryHome!.servicesWithTypes([HMServiceTypeThermostat])! as [HMService]
+        for service in thermostatServices {
+            for char in service.characteristics {
+                if !char.properties.contains(HMCharacteristicPropertySupportsEventNotification) {
+                    continue
+                } else {
+                    char.enableNotification(true, completionHandler: {(error) -> Void in
+                        if error != nil {
+                            print("Enable notifcation error \(error.debugDescription)")
+                        }
+                    })
+                }
+            }
+            let startTemp = service.characteristics[3].value!
+            let endTemp = service.characteristics[4].value!
+            let heating = service.characteristics[1].value!
+            let id = service.characteristics[0].value!
+            print("Start temp is: \(startTemp) going to \(endTemp). Heating value is \(heating)")
+            
+            let thermostatDataAnalyser = ERThermostatDataAnalyzer.init(startTemp: startTemp as! Float, endTemp: endTemp as! Float, onState: heating as! Int, id: id as! String)
+            thermostatDataAnalyser.incrementEnergyUsedForDay()
+        }
+    }
+    
+    func endFetchingForTheDay(){
+        if backgroundTask != UIBackgroundTaskInvalid {
+            endBackgroundTask()
+        }
+    }
+    
+    func reinstateBackgroundTask() {
+        if updateTimer != nil && (backgroundTask == UIBackgroundTaskInvalid) {
+            registerBackgroundTask()
+        }
+    }
+    
+    // MARK: Background Task Delegate
+    
+    func registerBackgroundTask() {
+        backgroundTask = UIApplication.shared.beginBackgroundTask { [weak self] in
+            self?.endBackgroundTask()
+        }
+        assert(backgroundTask != UIBackgroundTaskInvalid)
+    }
+    
+    func endBackgroundTask() {
+        print("Background task ended.")
+        UIApplication.shared.endBackgroundTask(backgroundTask)
+        backgroundTask = UIBackgroundTaskInvalid
+    }
+    
+    //MARK: TableViewMethods
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 5
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "pointsCell", for: indexPath)
+        let usernameLabel = cell.viewWithTag(69) as! UILabel
+        let pointsLabel = cell.viewWithTag(70) as! UILabel
+        
+        usernameLabel.text = "Jay"
+        pointsLabel.text = "69"
+        
+        return cell
+    }
+    
+    // MARK: Get all users 
+    func fetchAllUsers(){
+        if let authToken = UserDefaults.standard.object(forKey: "authToken"){
+            ERLoginSignUp.getAllGlobalUsersWith(authToken: authToken as! String, viewController: self)
+        }
+    }
+    
+    func updateLeaderBoard(notification: NSNotification){
+        //let array : [String: Any]!
+        //let users : [Int]! = array["users"]
+        
+        
     }
 }

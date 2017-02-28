@@ -14,6 +14,8 @@
 		69241AAD1E646E2100DE153F /* ERMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69241AAC1E646E2100DE153F /* ERMainViewController.swift */; };
 		DA1175971E64FF8500882EED /* ERLoginSignUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1175961E64FF8500882EED /* ERLoginSignUp.swift */; };
 		DA1175991E64FFD700882EED /* ERUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1175981E64FFD700882EED /* ERUtilities.swift */; };
+		DA11759B1E65437D00882EED /* ERDataAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA11759A1E65437D00882EED /* ERDataAnalyzer.swift */; };
+		DA11759D1E654B9600882EED /* ERDevicePowerUsageInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA11759C1E654B9600882EED /* ERDevicePowerUsageInfo.swift */; };
 		DA4B20821E6240C9008988B6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4B20811E6240C9008988B6 /* AppDelegate.swift */; };
 		DA4B20841E6240C9008988B6 /* ERSplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4B20831E6240C9008988B6 /* ERSplashViewController.swift */; };
 		DA4B20871E6240C9008988B6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA4B20851E6240C9008988B6 /* Main.storyboard */; };
@@ -34,6 +36,8 @@
 		69895E301E643A9A002AAF7B /* EcoRank.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = EcoRank.entitlements; sourceTree = "<group>"; };
 		DA1175961E64FF8500882EED /* ERLoginSignUp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ERLoginSignUp.swift; sourceTree = "<group>"; };
 		DA1175981E64FFD700882EED /* ERUtilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ERUtilities.swift; sourceTree = "<group>"; };
+		DA11759A1E65437D00882EED /* ERDataAnalyzer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ERDataAnalyzer.swift; sourceTree = "<group>"; };
+		DA11759C1E654B9600882EED /* ERDevicePowerUsageInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ERDevicePowerUsageInfo.swift; sourceTree = "<group>"; };
 		DA4B207E1E6240C9008988B6 /* EcoRank.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EcoRank.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA4B20811E6240C9008988B6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DA4B20831E6240C9008988B6 /* ERSplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ERSplashViewController.swift; sourceTree = "<group>"; };
@@ -102,7 +106,9 @@
 				DA4B20811E6240C9008988B6 /* AppDelegate.swift */,
 				DAC939F21E64641C00ABDA5B /* ERColours.swift */,
 				DAC939FB1E64935400ABDA5B /* ERUser.swift */,
+				DA11759C1E654B9600882EED /* ERDevicePowerUsageInfo.swift */,
 				DAC93A011E64BA5500ABDA5B /* Device Module */,
+				DA11759A1E65437D00882EED /* ERDataAnalyzer.swift */,
 				DA1175961E64FF8500882EED /* ERLoginSignUp.swift */,
 				DA1175981E64FFD700882EED /* ERUtilities.swift */,
 				DA4B20831E6240C9008988B6 /* ERSplashViewController.swift */,
@@ -159,6 +165,9 @@
 						DevelopmentTeam = V5YSHRDD9B;
 						ProvisioningStyle = Manual;
 						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
 							com.apple.HomeKit = {
 								enabled = 1;
 							};
@@ -211,8 +220,10 @@
 				DA1175971E64FF8500882EED /* ERLoginSignUp.swift in Sources */,
 				DA4B20821E6240C9008988B6 /* AppDelegate.swift in Sources */,
 				DAC939F31E64641C00ABDA5B /* ERColours.swift in Sources */,
+				DA11759B1E65437D00882EED /* ERDataAnalyzer.swift in Sources */,
 				DAC939FE1E64AE9600ABDA5B /* ERDeviceModule.swift in Sources */,
 				DAC939FC1E64935400ABDA5B /* ERUser.swift in Sources */,
+				DA11759D1E654B9600882EED /* ERDevicePowerUsageInfo.swift in Sources */,
 				DA1175991E64FFD700882EED /* ERUtilities.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
