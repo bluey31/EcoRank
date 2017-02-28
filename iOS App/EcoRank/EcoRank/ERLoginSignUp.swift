@@ -29,7 +29,7 @@ class ERLoginSignUp {
     }
     
     class func getAllGlobalUsersWith(authToken: String, viewController: UIViewController){
-        let requestURL = "https://ecorank.xsanda.me/users"
+        let requestURL = "https://ecorank.xsanda.me/users/all"
         triggerGETRequestWith(reqUrl: requestURL, authToken: authToken, viewController: viewController)
     }
     
@@ -108,11 +108,53 @@ class ERLoginSignUp {
                 return
             }
             
-            let responseString = String(data: data, encoding: .utf8)?.replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
-            print("Users: \(responseString!)")
+            //let responseString = String(data: data, encoding: .utf8)?.replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
+            //print("Users: \(responseString!)")
             
-            print("Loading main screen")
-            NotificationCenter.default.post(name:Notification.Name(rawValue:"fetchedAllUsers"), object: nil, userInfo: ["users": responseString!])
+            //print("Fetched all users: \(responseString!)")
+            NotificationCenter.default.post(name:Notification.Name(rawValue:"fetchedAllUsers"), object: nil, userInfo: ["users": data])
+        }
+        task.resume()
+    }
+
+    
+    class func triggerGETRequestForTop20With(reqUrl: String, authToken: String, viewController: UIViewController){
+        var request = URLRequest(url: URL(string: reqUrl)!)
+        request.httpMethod = "GET"
+        request.setValue("Bearer \(authToken)", forHTTPHeaderField: "Authorization")
+        
+        print("Trying to Fetch Top Users..")
+        
+        let session = URLSession.shared
+        
+        let task = session.dataTask(with: request as URLRequest) { (data, response, error) -> Void in
+            // Check for fundamental networking error
+            guard let data = data, error == nil else {
+                print("error=\(error)")
+                return
+            }
+            
+            // Check for HTTP errors
+            if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {
+                print("statusCode should be 200, but is \(httpStatus.statusCode)")
+                print("Response = \(response)")
+                
+                let responseString = String(data: data, encoding: .utf8)?.replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
+                print("response (bad response) = \(responseString!))")
+                
+                let responseArr: [String: Any] = ERUtilities.dataToJSON(data: data) as! [String: Any]
+                print(responseArr["errorCode"] as! Int)
+                
+                ERUtilities.displayErrorToUserWith(userCode: responseArr["errorCode"] as! Int, viewController: viewController)
+                
+                return
+            }
+            
+            //let responseString = String(data: data, encoding: .utf8)?.replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
+            //print("Users: \(responseString!)")
+            
+            //print("Fetched all users: \(responseString!)")
+            NotificationCenter.default.post(name:Notification.Name(rawValue:"fetchedTopUsers"), object: nil, userInfo: ["users": data])
         }
         task.resume()
     }
@@ -146,7 +188,7 @@ class ERLoginSignUp {
             }
             
             let responseString = String(data: data, encoding: .utf8)?.replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
-            print("response (good response) = \(responseString!)")
+            //print("response (good response) = \(responseString!)")
             
             // We know we have a successful login at this point so can extract the auth token
             extractAndStoreAuthTokenAndUserIdFrom(responseData: data)

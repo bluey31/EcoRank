@@ -212,7 +212,6 @@ class ERSplashViewController: UIViewController, UIGestureRecognizerDelegate {
     //MARK: Gesture Handlers
     @IBAction func tapGestureHandler(_ sender: UITapGestureRecognizer) {
         if loginPasswordTextField.isFirstResponder || loginUsernameTextField.isFirstResponder || signupPasswordTextField.isFirstResponder || signupUsernameTextField.isFirstResponder {
-            print("hi")
             loginPasswordTextField.resignFirstResponder()
             loginUsernameTextField.resignFirstResponder()
             signupPasswordTextField.resignFirstResponder()

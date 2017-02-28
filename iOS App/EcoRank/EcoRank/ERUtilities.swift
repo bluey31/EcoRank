@@ -19,6 +19,8 @@ class ERUtilities{
             ERUtilities.displayAlertViewWith(title: "No Password Provided", message: "Please enter a password.", viewController: viewController)
         case 4:
             ERUtilities.displayAlertViewWith(title: "Wrong Username or Password", message: "Please enter a correct username and password combination.", viewController: viewController)
+        case 8:
+            ERUtilities.displayAlertViewWith(title: "No user in the database", message: "This tried to find a user that wasn't in the database, sorry about that.", viewController: viewController)
         default:
             ERUtilities.displayAlertViewWith(title: "Error Occured", message: "Error Occured Logging in with status code \(userCode)", viewController: viewController)
         }
@@ -43,5 +45,4 @@ class ERUtilities{
         }
         return nil
     }
-
 }

@@ -15,6 +15,7 @@ class ERMainViewController: UIViewController, HMHomeManagerDelegate, HMAccessory
     @IBOutlet weak var scrollContainerView: UIView!
     @IBOutlet weak var monitorMyLivingSwitch: UISwitch!
     
+    @IBOutlet weak var deviceCountLabel: UILabel!
     @IBOutlet weak var horizontalDeviceModuleParentView: UIView!
     @IBOutlet weak var horizontalDeviceModuleScrollView: UIScrollView!
     @IBOutlet weak var horizontalDeviceModuleContainerView: UIView!
@@ -25,17 +26,25 @@ class ERMainViewController: UIViewController, HMHomeManagerDelegate, HMAccessory
     let browser = HMAccessoryBrowser()
     var accessories = [HMAccessory]()
     var accNumber = 0
+    var globalUsersIDArray = [Int]()
+    var globalTopUsersTracker = 0
     
     var backgroundTask: UIBackgroundTaskIdentifier = UIBackgroundTaskInvalid
     var updateTimer: Timer?
+    var allGlobalUsers: [ERUser] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Add Background task reinstater
         NotificationCenter.default.addObserver(self, selector: #selector(reinstateBackgroundTask), name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
         
+        //Fetches all users
+        fetchAllUsers()
+        
         // Fetched all users for leaderboard
-        NotificationCenter.default.addObserver(self, selector: #selector(updateLeaderBoard), name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateLeaderBoard(notification:)), name: NSNotification.Name(rawValue: "fetchedAllUsers"), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(updateTopLeaderBoard(notification:)), name: NSNotification.Name(rawValue: "fetchedTopUsers"), object: nil)
     }
     
     deinit {
@@ -56,6 +65,11 @@ class ERMainViewController: UIViewController, HMHomeManagerDelegate, HMAccessory
         //HomeKit
         homeManager.delegate = self
         browser.delegate = self
+        if homeManager.primaryHome?.accessories.count != nil {
+            deviceCountLabel.text = "\(homeManager.primaryHome!.accessories.count)"
+        } else {
+            deviceCountLabel.text = "0"
+        }
         testHomeKit()
     }
     
@@ -105,7 +119,8 @@ class ERMainViewController: UIViewController, HMHomeManagerDelegate, HMAccessory
         for j in 0...deviceArraySize-1 {
             // 16 is our offset
             let newX = (j * 200) + (j * gap) + 16
-            let newDevModule: ERDeviceModule = ERDeviceModule.instanceOfNib(deviceName: homeManager.primaryHome!.accessories[j].name, energyConsumptionPerHour: 69.69)
+            let name = homeManager.primaryHome!.accessories[j].name
+            let newDevModule: ERDeviceModule = ERDeviceModule.instanceOfNib(deviceName: name, energyConsumptionPerHour: powerInfo[name] )
             newDevModule.frame = CGRect(x: newX, y: 0, width: 200, height: 144)
             horizontalDeviceModuleContainerView.addSubview(newDevModule)
         }
@@ -139,25 +154,7 @@ class ERMainViewController: UIViewController, HMHomeManagerDelegate, HMAccessory
         }
     }
     
-    func accessoryDidUpdateServices(_ accessory: HMAccessory) {
-        print("think something changed?")
-    }
-    
-    func accessory(_ accessory: HMAccessory, didUpdateAssociatedServiceTypeFor service: HMService) {
-        print("updated something?")
-    }
 
-    func accessoryDidUpdateReachability(_ accessory: HMAccessory) {
-        if (accessory.isReachable == true) {
-            // Can communicate with the accessory
-            print("Accessory is reachable")
-        } else {
-            // The accessory is out of range, turned off, etc
-            print("Accessory is not reachable")
-        }
-    }
-    
-    
     @IBAction func monitorMyLivingSwitchChanged(_ sender: Any) {
         // Turned on
         if monitorMyLivingSwitch.isOn {
@@ -173,11 +170,6 @@ class ERMainViewController: UIViewController, HMHomeManagerDelegate, HMAccessory
             }
         }
     }
-    
-    func accessory(_ accessory: HMAccessory, service: HMService, didUpdateValueFor characteristic: HMCharacteristic) {
-        print("\(accessory.uniqueIdentifier) + \(characteristic.value)")
-    }
-    
     
     func fetchStateOfAccessories(){
         let lightServices = homeManager.primaryHome!.servicesWithTypes([HMServiceTypeLightbulb])! as [HMService]
@@ -200,7 +192,7 @@ class ERMainViewController: UIViewController, HMHomeManagerDelegate, HMAccessory
             print(id)
             let bulbDataAnalyser = ERLightDataAnalyzer.init(intensity: intensity as! Int, onState: on as! Bool, id: id as! String)
             bulbDataAnalyser.incrementEnergyUsedForDay()
-            //print(bulbDataAnalyser.generateData(obj: bulbDataAnalyser))
+            print(bulbDataAnalyser.generateData(obj: bulbDataAnalyser))
             
         }
         
@@ -259,18 +251,21 @@ class ERMainViewController: UIViewController, HMHomeManagerDelegate, HMAccessory
     //MARK: TableViewMethods
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return allGlobalUsers.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "pointsCell", for: indexPath)
         let usernameLabel = cell.viewWithTag(69) as! UILabel
         let pointsLabel = cell.viewWithTag(70) as! UILabel
-        
-        usernameLabel.text = "Jay"
-        pointsLabel.text = "69"
+        usernameLabel.text = "\(allGlobalUsers[indexPath.row].username)"
+        pointsLabel.text = "\(allGlobalUsers[indexPath.row].energyUsed)"
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     // MARK: Get all users 
@@ -281,9 +276,44 @@ class ERMainViewController: UIViewController, HMHomeManagerDelegate, HMAccessory
     }
     
     func updateLeaderBoard(notification: NSNotification){
-        //let array : [String: Any]!
-        //let users : [Int]! = array["users"]
+        globalTopUsersTracker = 0
+        print("Updating leaderboards..")
+        let jsonArray = ERUtilities.dataToJSON(data: notification.userInfo!["users"]! as! Data)!
         
-        
+        for i in 0...20 {
+            let userInJson: [String: Any] = (jsonArray as! [Any])[i] as! [String : Any]
+            let newUser = ERUser(id: userInJson["userId"] as! Int, energyUsed: userInJson["energyUsed"] as! Float)
+            allGlobalUsers.append(newUser)
+        }
+        allGlobalUsers.sort(by: sortUsers)
+        getUsernames()
     }
+    
+    func sortUsers(this: ERUser, that: ERUser) -> Bool {
+        return this.energyUsed < that.energyUsed
+    }
+    
+    func getUsernames(){
+        for element in allGlobalUsers {
+            if element.userId == 75 {
+                continue
+            }
+            let requestURL = "https://ecorank.xsanda.me/users/\(element.userId)"
+            if let authToken = UserDefaults.standard.object(forKey: "authToken"){
+                ERLoginSignUp.triggerGETRequestForTop20With(reqUrl: requestURL, authToken: authToken as! String, viewController: self)
+            }
+        }
+    }
+    
+    func updateTopLeaderBoard(notification: NSNotification){
+        print("calling top leaders")
+        let jsonArray = ERUtilities.dataToJSON(data: notification.userInfo!["users"]! as! Data)!
+        let userInJson = jsonArray as! [String : Any]
+        allGlobalUsers[globalTopUsersTracker].username = userInJson["username"] as! String
+        globalTopUsersTracker += 1
+        DispatchQueue.main.async(){
+            self.leaderBoardTableView.reloadData()
+        }
+    }
+    
 }
