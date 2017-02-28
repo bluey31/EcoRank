@@ -8,9 +8,12 @@
 
 require_once "functions.php";
 
-function newFeature($lat, $long) {
+function newFeature($lat, $long, $last_consumption) {
     return [
         "type" => "Feature",
+        "properties" => [
+            "consumption" => $last_consumption,
+        ],
         "geometry" => [
             "type" => "Point",
             "coordinates" => [$long, $lat],
@@ -21,10 +24,16 @@ function newFeature($lat, $long) {
 $features = [];
 
 run_db(function ($db) use ($features) {
-    $users = sqlquery($db, "SELECT latitude, longitude FROM Users", [],
+    $users = sqlquery($db, "SELECT userId, latitude, longitude FROM Users", [],
         SQL_MULTIPLE);
     foreach ($users as $user) {
-        $features[] = newFeature($user['latitude'], $user['longitude']);
+        $last_consumption = sqlquery($db,
+            "SELECT energyUsed FROM EnergyConsumption
+                WHERE userId=:id AND day=(SELECT MAX(day)
+                    FROM EnergyConsumption WHERE userId=:id);",
+            ['id' => $user['userId']], SQL_SINGLE);
+        $features[] = newFeature($user['latitude'], $user['longitude'],
+            $last_consumption);
     }
 
 
