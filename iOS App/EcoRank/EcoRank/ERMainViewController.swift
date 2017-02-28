@@ -21,6 +21,7 @@ class ERMainViewController: UIViewController, HMHomeManagerDelegate, HMAccessory
     let homeManager = HMHomeManager()
     let browser = HMAccessoryBrowser()
     var accessories = [HMAccessory]()
+    var accNumber = 0
     
     override func viewWillAppear(_ animated: Bool) {
         // Beginning value for constraint so the cloud is off the screen
@@ -31,8 +32,6 @@ class ERMainViewController: UIViewController, HMHomeManagerDelegate, HMAccessory
         animateClouds()
         self.view.backgroundColor = ERSkyBlue
         self.horizontalDeviceModuleParentView.backgroundColor = UIColor.clear
-        addTestBoxes()
-        
         
         //HomeKit
         homeManager.delegate = self
@@ -43,20 +42,22 @@ class ERMainViewController: UIViewController, HMHomeManagerDelegate, HMAccessory
     //MARK: Accessory delegate methods
     
     func stopSearching(){
-        print("stopping searchign for acc")
         browser.stopSearchingForNewAccessories()
-        print(homeManager.primaryHome!.accessories)
     }
     
     func accessoryBrowser(_ browser: HMAccessoryBrowser, didFindNewAccessory accessory: HMAccessory) {
         let primaryHome = homeManager.primaryHome!
         print("found new accessor: \(accessory)")
+        accNumber += 1
         primaryHome.addAccessory(accessory, completionHandler: { error -> Void in
             if error != nil {
                 print("Error whilst trying to add accessory \(error.debugDescription)")
             }
+            self.accessories.append(accessory)
+            //if self.accNumber == self.accessories.count {
+              //  self.addBoxes()
+            //}
         })
-        print(primaryHome.accessories)
     }
     
     func accessoryBrowser(_ browser: HMAccessoryBrowser, didRemoveNewAccessory accessory: HMAccessory) {
@@ -73,9 +74,9 @@ class ERMainViewController: UIViewController, HMHomeManagerDelegate, HMAccessory
         })
     }
     
-    func addTestBoxes(){
+    func addBoxes(){
         let gap = 20
-        let deviceArraySize = 6
+        let deviceArraySize = accessories.count
         
         // Width of module = 200, width of gap = 20 * the amount of devices
         let widthOfContainer = 220*deviceArraySize
@@ -85,7 +86,7 @@ class ERMainViewController: UIViewController, HMHomeManagerDelegate, HMAccessory
         for j in 0...deviceArraySize-1 {
             // 16 is our offset
             let newX = (j * 200) + (j * gap) + 16
-            let newDevModule: ERDeviceModule = ERDeviceModule.instanceOfNib(deviceName: "Light Blub af", energyConsumptionPerHour: 69.69)
+            let newDevModule: ERDeviceModule = ERDeviceModule.instanceOfNib(deviceName: accessories[j].name, energyConsumptionPerHour: 69.69)
             newDevModule.frame = CGRect(x: newX, y: 0, width: 200, height: 144)
             horizontalDeviceModuleContainerView.addSubview(newDevModule)
         }
@@ -98,12 +99,17 @@ class ERMainViewController: UIViewController, HMHomeManagerDelegate, HMAccessory
     func testHomeKit(){
         if let home = homeManager.primaryHome {
             print("testing home and \(home.accessories.count)")
+            accessories = home.accessories
+            addBoxes()
             
-            for acc in home.accessories {
-                print("Name : \(acc.name), UUID \(acc.uniqueIdentifier)")
+            let lightServices = home.servicesWithTypes([HMServiceTypeLightbulb])! as [HMService]
+            for service in lightServices {
+                let on = service.characteristics[1].value!
+                let intensity = service.characteristics[2].value!
+                print("This light is: \(on) at level \(intensity)%")
             }
         }else{
-            self.homeManager.addHome(withName: "Porter Ave", completionHandler: { (home, error) in
+            self.homeManager.addHome(withName: "UserHome", completionHandler: { (home, error) in
                 if error != nil {
                     print("Something went wrong when attempting to create our home. \(error?.localizedDescription)")
                 } else {
