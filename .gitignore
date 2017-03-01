@@ -6,6 +6,3 @@
 *.xcuserstate
 out
 gen
-
-# Database
-*.db
