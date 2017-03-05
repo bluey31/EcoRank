@@ -12,24 +12,24 @@ import UIKit
 class ERLoginSignUp {
     
     class func loginWith(username: String, password: String, viewController: UIViewController){
-        let requestURL = "https://ecorank.xsanda.me/login"
+        let requestURL = "http://ecorank.lewiky.com/login"
         let postString = "username=\(username)&password=\(password)"
         triggerPOSTRequestWith(reqUrl: requestURL, params: postString, viewController: viewController)
     }
     
     class func signUpWith(username: String, password:String, long: Double, lat: Double, viewController: UIViewController){
-        let requestURL = "https://ecorank.xsanda.me/users"
+        let requestURL = "http://ecorank.lewiky.com/users"
         let postString = "username=\(username)&password=\(password)&long=\(long)&lat=\(lat)"
         triggerPOSTRequestWith(reqUrl: requestURL, params: postString, viewController: viewController)
     }
     
     class func loginWith(userId: Int, authToken: String, viewController: UIViewController){
-        let requestURL = "https://ecorank.xsanda.me/test"
+        let requestURL = "http://ecorank.lewiky.com/test"
         triggerGETRequestWith(reqUrl: requestURL, userId: userId, authToken: authToken, viewController: viewController)
     }
     
     class func getAllGlobalUsersWith(authToken: String, viewController: UIViewController){
-        let requestURL = "https://ecorank.xsanda.me/users/all"
+        let requestURL = "http://ecorank.lewiky.com/users/all"
         triggerGETRequestWith(reqUrl: requestURL, authToken: authToken, viewController: viewController)
     }
     

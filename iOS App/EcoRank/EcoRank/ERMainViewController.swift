@@ -299,7 +299,7 @@ class ERMainViewController: UIViewController, HMHomeManagerDelegate, HMAccessory
             if element.userId == 75 {
                 continue
             }
-            let requestURL = "https://ecorank.xsanda.me/users/\(element.userId)"
+            let requestURL = "http://ecorank.lewiky.com/users/\(element.userId)"
             if let authToken = UserDefaults.standard.object(forKey: "authToken"){
                 ERLoginSignUp.triggerGETRequestForTop20With(reqUrl: requestURL, authToken: authToken as! String, viewController: self)
             }
@@ -318,7 +318,7 @@ class ERMainViewController: UIViewController, HMHomeManagerDelegate, HMAccessory
     
     @IBAction func logOutButtonPressed(_ sender: Any) {
         let authToken = UserDefaults.standard.object(forKey: "authToken") as! String
-        ERLoginSignUp.triggerPOSTLogOutRequestWith(reqUrl: "https://ecorank.xsanda.me/logout", authToken: authToken, viewController: self)
+        ERLoginSignUp.triggerPOSTLogOutRequestWith(reqUrl: "http://ecorank.lewiky.com/logout", authToken: authToken, viewController: self)
         UserDefaults.standard.removeObject(forKey: "authToken")
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "ERSplashViewController") as! ERSplashViewController
         self.present(vc, animated: false, completion: nil)

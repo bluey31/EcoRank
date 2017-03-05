@@ -22,6 +22,11 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 	<key>NSHomeKitUsageDescription</key>
 	<string>EcoRank needs access to HomeKit to monitor your green living! (We will not make use of cameras/ manipulate your accessories)</string>
 	<key>NSLocationAlwaysUsageDescription</key>
