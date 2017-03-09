@@ -41,7 +41,6 @@ class ERSplashViewController: UIViewController, UIGestureRecognizerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Successful Login Notification
         NotificationCenter.default.addObserver(self, selector: #selector(successfulLogin(notification:)), name: NSNotification.Name(rawValue: "successfulLogin"), object: nil)
         

@@ -21,10 +21,10 @@
         </array>
     </customFonts>
     <scenes>
-        <!--ERLoginViewController-->
+        <!--ERSplashViewController-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController storyboardIdentifier="ERLoginViewController" title="ERLoginViewController" id="BYZ-38-t0r" customClass="ERSplashViewController" customModule="EcoRank" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ERSplashViewController" title="ERSplashViewController" id="BYZ-38-t0r" customClass="ERSplashViewController" customModule="EcoRank" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -593,6 +593,16 @@
                                                     <outlet property="delegate" destination="kqj-it-say" id="k2Y-VU-vx2"/>
                                                 </connections>
                                             </tableView>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L6D-jH-aOu">
+                                                <rect key="frame" x="134" y="912" width="107" height="35"/>
+                                                <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="25"/>
+                                                <state key="normal" title="Log Out">
+                                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="logOutButtonPressed:" destination="kqj-it-say" eventType="touchUpInside" id="qQi-Q4-sVk"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <color key="tintColor" red="0.40000000000000002" green="0.40000000000000002" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
@@ -605,6 +615,7 @@
                                             <constraint firstItem="ETc-fi-Ib3" firstAttribute="top" secondItem="seu-0A-Ato" secondAttribute="bottom" constant="40" id="6H8-Fu-Xtn"/>
                                             <constraint firstItem="7ur-px-0M4" firstAttribute="leading" secondItem="AWl-Ex-mod" secondAttribute="leading" constant="18" id="8n7-dC-19j"/>
                                             <constraint firstAttribute="bottom" secondItem="Gat-TH-rTJ" secondAttribute="bottom" constant="51" id="95K-8W-Bt7"/>
+                                            <constraint firstAttribute="trailing" secondItem="L6D-jH-aOu" secondAttribute="trailing" constant="134" id="Dwf-mg-9HI"/>
                                             <constraint firstItem="Gat-TH-rTJ" firstAttribute="leading" secondItem="AWl-Ex-mod" secondAttribute="leading" constant="26" id="Dzc-a9-hAO"/>
                                             <constraint firstItem="LUz-UO-Pl6" firstAttribute="leading" secondItem="AWl-Ex-mod" secondAttribute="leading" constant="18" id="H6a-ba-9bW"/>
                                             <constraint firstItem="N11-a6-8AV" firstAttribute="top" secondItem="LUz-UO-Pl6" secondAttribute="bottom" constant="17" id="JAv-gm-cle"/>
@@ -620,7 +631,10 @@
                                             <constraint firstItem="BQx-La-GlF" firstAttribute="top" secondItem="AWl-Ex-mod" secondAttribute="top" constant="30" id="Xp3-DE-6AO"/>
                                             <constraint firstAttribute="trailing" secondItem="Sdr-3g-vlK" secondAttribute="trailing" constant="26" id="bpL-QI-P5w"/>
                                             <constraint firstItem="Gat-TH-rTJ" firstAttribute="top" secondItem="ETc-fi-Ib3" secondAttribute="bottom" constant="34" id="kya-3l-4Df"/>
+                                            <constraint firstItem="L6D-jH-aOu" firstAttribute="top" secondItem="Gat-TH-rTJ" secondAttribute="bottom" constant="7.5" id="ltj-eJ-QSt"/>
                                             <constraint firstItem="Sdr-3g-vlK" firstAttribute="width" secondItem="N11-a6-8AV" secondAttribute="width" id="rLJ-TF-O4o"/>
+                                            <constraint firstAttribute="bottom" secondItem="L6D-jH-aOu" secondAttribute="bottom" constant="8.5" id="rnu-gP-PTw"/>
+                                            <constraint firstItem="L6D-jH-aOu" firstAttribute="leading" secondItem="AWl-Ex-mod" secondAttribute="leading" constant="134" id="vFl-6V-Zh7"/>
                                             <constraint firstAttribute="bottom" secondItem="LUz-UO-Pl6" secondAttribute="bottom" constant="847" id="vQ7-ah-e1F"/>
                                             <constraint firstItem="seu-0A-Ato" firstAttribute="leading" secondItem="AWl-Ex-mod" secondAttribute="leading" id="zyG-EH-QzC"/>
                                         </constraints>

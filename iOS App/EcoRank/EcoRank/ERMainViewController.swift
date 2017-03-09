@@ -294,11 +294,12 @@ class ERMainViewController: UIViewController, HMHomeManagerDelegate, HMAccessory
     }
     
     func getUsernames(){
+        globalTopUsersTracker = 0
         for element in allGlobalUsers {
             if element.userId == 75 {
                 continue
             }
-            let requestURL = "https://ecorank.xsanda.me/users/\(element.userId)"
+            let requestURL = "https://ecorank.lewiky.com/users/\(element.userId)"
             if let authToken = UserDefaults.standard.object(forKey: "authToken"){
                 ERLoginSignUp.triggerGETRequestForTop20With(reqUrl: requestURL, authToken: authToken as! String, viewController: self)
             }
@@ -306,7 +307,6 @@ class ERMainViewController: UIViewController, HMHomeManagerDelegate, HMAccessory
     }
     
     func updateTopLeaderBoard(notification: NSNotification){
-        print("calling top leaders")
         let jsonArray = ERUtilities.dataToJSON(data: notification.userInfo!["users"]! as! Data)!
         let userInJson = jsonArray as! [String : Any]
         allGlobalUsers[globalTopUsersTracker].username = userInJson["username"] as! String
@@ -316,4 +316,11 @@ class ERMainViewController: UIViewController, HMHomeManagerDelegate, HMAccessory
         }
     }
     
+    @IBAction func logOutButtonPressed(_ sender: Any) {
+        let authToken = UserDefaults.standard.object(forKey: "authToken") as! String
+        ERLoginSignUp.triggerPOSTLogOutRequestWith(reqUrl: "https://ecorank.lewiky.com/logout", authToken: authToken, viewController: self)
+        UserDefaults.standard.removeObject(forKey: "authToken")
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "ERSplashViewController") as! ERSplashViewController
+        self.present(vc, animated: false, completion: nil)
+    }
 }
