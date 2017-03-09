@@ -7,7 +7,7 @@ if len(sys.argv) != 2:
     print("incorrect num of arguments, should be one")
     sys.exit(1)
 n = int(sys.argv[1])
-h = 'http://ecorank.xsanda.me/'
+h = "http://ecorank.lewiky.com/"
 users = []
 for i in range(1,n+1):
     username = ''.join(random.choice(string.ascii_lowercase) for i in range(10))

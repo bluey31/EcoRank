@@ -6,3 +6,11 @@
 *.xcuserstate
 out
 gen
+<<<<<<< HEAD
+=======
+
+# Database
+*.db
+
+\.DS_Store
+>>>>>>> backend
